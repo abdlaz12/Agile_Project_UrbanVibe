@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js" defer></script>
+<main class="container mx-auto p-6">
+    <!-- Hero Section -->
+    <!-- <section class="relative w-screen h-screen text-white">
+        <div class="swiper mySwiper w-full h-full">
+            <div class="swiper-wrapper">
+                 Slide 1 
+                    <div class="swiper-slide  w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-start pl-16" style="background-image: url('{% static 'assets/image/hero.png' %}');">
+                        <div class="bg-black bg-opacity-50 p-8 rounded-lg text-left max-w-lg self-start mt-56">
+                            <h1 class="text-4xl font-bold text-pink-300">Discover and Find Your Own Fashion!</h1>
+                            <p class="mt-4">Explore our curated collection of stylish clothing and accessories tailored to your unique taste.</p>
+                            <a href="#" class="mt-6 inline-block bg-pink-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-pink-600 transition">EXPLORE NOW</a>
+                        </div>
+                    </div>
+                    
+                Slide 2
+                <div class="swiper-slide w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center" style="background-image: url('{% static 'assets/image/hero2.png' %}');">
+                    <div class="bg-black bg-opacity-50 p-8 rounded-lg text-center">
+                        <h1 class="text-4xl font-bold text-pink-300">New Styles, New You!</h1>
+                        <p class="mt-4">Refresh your wardrobe with our latest fashion arrivals.</p>
+                        <a href="#" class="mt-6 inline-block bg-blue-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-600 transition">SHOP NOW</a>
+                    </div>
+                </div>
+    
+               Slide 3 
+                <div class="swiper-slide w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center" style="background-image: url('{% static 'assets/image/hero.png' %}');">
+                    <div class="bg-black bg-opacity-50 p-8 rounded-lg text-center">
+                        <h1 class="text-4xl font-bold text-pink-300">Limited Edition Drops!</h1>
+                        <p class="mt-4">Get your hands on exclusive fashion pieces before they're gone.</p>
+                        <a href="#" class="mt-6 inline-block bg-green-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-600 transition">GRAB NOW</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    
+
+    <!-- Three Cards Section -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-green-100 p-6 rounded-lg shadow-md">
+            <img src="{% static 'assets/images/icon1.png' %}" alt="Icon 1" class="w-16 mx-auto">
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+            <img src="{% static 'assets/images/icon2.png' %}" alt="Icon 2" class="w-16 mx-auto">
+        </div>
+        <div class="bg-blue-100 p-6 rounded-lg shadow-md">
+            <img src="{% static 'assets/images/icon3.png' %}" alt="Icon 3" class="w-16 mx-auto">
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-pink-600">Hello We Are UrbanVibe</h2>
+        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+            Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 40% on our latest New Arrivals.
+        </p>
+    </section>
+
+    <!-- Product Categories -->
+    <section class="text-center">
+        <h2 class="text-3xl font-bold text-pink-600 mb-6">Designer Clothes For You</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                <img src="{% static 'assets/images/accessories.png' %}" alt="Accessories" class="w-full rounded-lg">
+                <h3 class="text-lg font-semibold mt-4">Accessories</h3>
+                <p class="text-gray-600">Complete your ensembles with designer accessories, from handbags, scarves, belts, and more.</p>
+            </div>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                <img src="{% static 'assets/images/dresses.png' %}" alt="Dresses" class="w-full rounded-lg">
+                <h3 class="text-lg font-semibold mt-4">Dresses</h3>
+                <p class="text-gray-600">Explore a stunning range of designer dresses, including evening gowns and chic day dresses.</p>
+            </div>
+            <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                <img src="{% static 'assets/images/outerwear.png' %}" alt="Outerwear" class="w-full rounded-lg">
+                <h3 class="text-lg font-semibold mt-4">Outerwear</h3>
+                <p class="text-gray-600">Browse tailored designer coats, jackets, and blazers to stay stylish, warm during colder seasons.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            effect: "fade",
+            speed: 800,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+    });
+</script>
+
+{% endblock %}
+
+

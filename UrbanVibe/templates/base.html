@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sesaria</title>
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="logo">SESARIA</div>
+        <nav>
+            <a href="#">Catalogue</a>
+            <a href="#">Fashion</a>
+            <a href="#">Favourites</a>
+            <a href="#">About</a>
+        </nav>
+        <div class="actions">
+            <i class="fas fa-shopping-cart"></i>
+            <button>Get Started</button>
+        </div>
+    </header>
+
+    <!-- Konten dari halaman lain akan masuk di sini -->
+    <main class="min-h-screen">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h2>Rivo</h2>
+                <p>Social Media</p>
+                <div class="social-icons">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>SHOP</h3>
+                <ul>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Overview</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Releases</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>COMPANY</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="text-lg font-bold">STAY UP TO DATE</h3>
+                <form class="flex flex-col sm:flex-row gap-4 mt-4">
+                    <input type="email" placeholder="Enter your email" required class="w-full sm:w-80 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                    <button type="submit" class="bg-pink-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-pink-600 transition w-full sm:w-auto">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="line"></span>
+            <p class="terms">Terms</p>
+        </div>
+    </footer>
+
+</body>
+</html>
