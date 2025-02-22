@@ -13,19 +13,25 @@
 <body>
 
     <!-- Navbar -->
-    <header>
-        <div class="logo">SESARIA</div>
-        <nav>
-            <a href="#">Catalogue</a>
-            <a href="#">Fashion</a>
-            <a href="#">Favourites</a>
-            <a href="{% url 'about_us' %}">About Us</a>
-        </nav>
-        <div class="actions">
-            <i class="fas fa-shopping-cart"></i>
-            <button>Get Started</button>
+    <header class="bg-pink-200 py-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+          <a class="text-4xl font-bold text-pink-600" href = '{% url "index" %}'>
+            UrbanVibe
+          </a>
+          <nav class="space-x-6">
+            <a class="text-pink-600 hover:text-pink-800" href="#">Catalogue</a>
+            <a class="text-pink-600 hover:text-pink-800" href="#">Fashion</a>
+            <a class="text-pink-600 hover:text-pink-800" href="#">Favourites</a>
+            <a class="text-pink-600 hover:text-pink-800" href="{% url 'about_us' %}">About</a>
+          </nav>
+          <div class="flex items-center space-x-4">
+            <i class="fas fa-shopping-cart text-pink-600"></i>
+            <button class="bg-white text-pink-600 border border-pink-600 px-4 py-2 rounded-full hover:bg-pink-600 hover:text-white">
+              Get Started
+            </button>
+          </div>
         </div>
-    </header>
+      </header>
 
     <!-- Konten dari halaman lain akan masuk di sini -->
     <main class="min-h-screen">

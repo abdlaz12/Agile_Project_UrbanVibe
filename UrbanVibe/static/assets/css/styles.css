@@ -24,28 +24,6 @@ header {
     letter-spacing: 1px;
 }
 
-nav {
-    display: flex;
-    gap: 30px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #7A2F4D;
-    font-size: 16px;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
-    color: #E91E63;
-}
-
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
 
 .actions i {
     font-size: 20px;
