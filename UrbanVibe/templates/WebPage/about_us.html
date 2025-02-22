@@ -1,0 +1,161 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>UrbanVibe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .meet-the-team-section {
+        background-image: url('{% static "assets/images/icon1.png" %}');
+        background-size: cover;
+        background-position: center;
+      }
+    </style>
+  </head>
+
+  <body class="bg-white text-gray-800">
+    <header class="bg-pink-200 py-4">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <h1 class="text-4xl font-bold text-pink-600">
+          UrbanVibe
+        </h1>
+        <nav class="space-x-6">
+          <a class="text-pink-600 hover:text-pink-800" href="#">Catalogue</a>
+          <a class="text-pink-600 hover:text-pink-800" href="#">Fashion</a>
+          <a class="text-pink-600 hover:text-pink-800" href="#">Favourites</a>
+          <a class="text-pink-600 hover:text-pink-800" href="#">About</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-shopping-cart text-pink-600"></i>
+          <button class="bg-white text-pink-600 border border-pink-600 px-4 py-2 rounded-full hover:bg-pink-600 hover:text-white">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="container mx-auto px-4 py-12">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 flex justify-center space-x-4">
+          <img alt="A set of makeup brushes in a pink holder" class="rounded-lg shadow-lg" height="200" src="https://storage.googleapis.com/a1aa/image/OQsdkNrWSeuyAUUDGJG_EPhhIT0HtoXeC-C6arsvxuA.jpg" width="200"/>
+          <img alt="Various makeup products laid out" class="rounded-lg shadow-lg" height="200" src="https://storage.googleapis.com/a1aa/image/2-1EZAwPr1L89P56v4xUzLHm1OfHbC-9NbUso7mkdrc.jpg" width="200"/>
+        </div>
+        <div class="md:w-1/2 mt-8 md:mt-0 md:pl-12">
+          <h2 class="text-3xl font-bold text-[#E38081] mb-4">
+            ABOUT US
+          </h2>
+          <p class="text-gray-700 mb-6">
+            At Sesaria, we empower self-expression with stylish clothing and high-quality makeup. Our collections blend trend and elegance, helping you look and feel your best. Beauty is confidence—embrace it with Sesaria.
+          </p>
+          <button class="bg-[#D6AA85] text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-[#C2947B] transition-all">
+            EXPLORE MORE
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#E38081] py-12">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-white mb-8">
+          OUR CORE VALUES
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <i class="fas fa-eye text-[#E38081] text-4xl mb-4"></i>
+            <h3 class="text-xl font-bold text-[#E38081] mb-2">FOCUS</h3>
+            <div class="w-24 h-px bg-black opacity-50 mx-auto mb-4"></div>
+            <p class="text-gray-700">We’re dedicated to creating beauty and fashion that inspire confidence, with meticulous attention to every detail.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <i class="fas fa-heart text-[#E38081] text-4xl mb-4"></i>
+            <h3 class="text-xl font-bold text-[#E38081] mb-2">PASSION</h3>
+            <div class="w-24 h-px bg-black opacity-50 mx-auto mb-4"></div>
+            <p class="text-gray-700">Our love for beauty and style drives us to design products that help you express yourself and feel amazing.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <i class="fas fa-exchange-alt text-[#E38081] text-4xl mb-4"></i>
+            <h3 class="text-xl font-bold text-[#E38081] mb-2">EMPATHY</h3>
+            <div class="w-24 h-px bg-black opacity-50 mx-auto mb-4"></div>
+            <p class="text-gray-700">We believe in understanding your unique style and needs, offering products that empower your self-expression.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <i class="fas fa-users text-[#E38081] text-4xl mb-4"></i>
+            <h3 class="text-xl font-bold text-[#E38081] mb-2">TEAMWORK</h3>
+            <div class="w-24 h-px bg-black opacity-50 mx-auto mb-4"></div>
+            <p class="text-gray-700">Together, we build high-quality fashion and beauty that deliver a seamless experience and make you feel beautiful.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section with background image using CSS -->
+    <section class="meet-the-team-section container mx-auto px-4 py-12">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-white bg-pink-300 border-2 border-pink-400 px-6 py-2 inline-block">MEET THE TEAM</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div class="flex items-center space-x-4">
+          <img alt="Sesaria Tamara Kiki, CEO & Founder" class="rounded-full w-24 h-24" height="100" src="https://storage.googleapis.com/a1aa/image/ng6mh6nBXt-3icrBiJvW0ku6RAsH_UG6Re31N9B8SOQ.jpg" width="100"/>
+          <div>
+            <h3 class="text-xl font-bold text-pink-600">SESARIA TAMARA KIKI</h3>
+            <p class="text-gray-700">CEO &amp; Founder</p>
+            <p class="text-gray-700">CEO and Founder with over 12 years of experience in the industry. She is passionate about innovation and strives to create products that cater to customer needs.</p>
+            <div class="flex space-x-2 mt-2">
+              <i class="fab fa-whatsapp text-green-500"></i>
+              <i class="fab fa-facebook text-blue-600"></i>
+              <i class="fab fa-instagram text-pink-600"></i>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <img alt="Lucy Williams, Product Development Lead" class="rounded-full w-24 h-24" height="100" src="https://storage.googleapis.com/a1aa/image/y79cj_vQ8Hj4lu4tvhHXPPUIH5Btr0MFlAnv3vdWvss.jpg" width="100"/>
+          <div>
+            <h3 class="text-xl font-bold text-pink-600">LUCY WILLIAMS</h3>
+            <p class="text-gray-700">Product Development Lead</p>
+            <p class="text-gray-700">A creative leader with 8+ years of experience in beauty and fashion, Lucy is focused on developing innovative products that reflect the latest trends and meet customer needs.</p>
+            <div class="flex space-x-2 mt-2">
+              <i class="fab fa-whatsapp text-green-500"></i>
+              <i class="fab fa-facebook text-blue-600"></i>
+              <i class="fab fa-instagram text-pink-600"></i>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <img alt="Julia Margaret, Chief Operating Officer" class="rounded-full w-24 h-24" height="100" src="https://storage.googleapis.com/a1aa/image/H3-_rsdKiko4G1XvJfy1lHavhbrVky1ZjvGnivASmGc.jpg" width="100"/>
+          <div>
+            <h3 class="text-xl font-bold text-pink-600">JULIA MARGARET</h3>
+            <p class="text-gray-700">Chief Operating Officer</p>
+            <p class="text-gray-700">With 12+ years of experience, Julia optimizes operations to drive efficiency and ensure seamless growth at Sesaria. As such, she drives growth and operational excellence.</p>
+            <div class="flex space-x-2 mt-2">
+              <i class="fab fa-whatsapp text-green-500"></i>
+              <i class="fab fa-facebook text-blue-600"></i>
+              <i class="fab fa-instagram text-pink-600"></i>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <img alt="Sarah Lee, Marketing Director" class="rounded-full w-24 h-24" height="100" src="https://storage.googleapis.com/a1aa/image/fl2egLYtC79-wEUwRQJ_Hx29N_Wk5bKoKR1uBxzcd5Y.jpg" width="100"/>
+          <div>
+            <h3 class="text-xl font-bold text-pink-600">SARAH LEE</h3>
+            <p class="text-gray-700">Marketing Director</p>
+            <p class="text-gray-700">A marketing strategist with 7+ years of experience, excelling at creating impactful campaigns that boost brand awareness through engaging content and strategies.</p>
+            <div class="flex space-x-2 mt-2">
+              <i class="fab fa-whatsapp text-green-500"></i>
+              <i class="fab fa-facebook text-blue-600"></i>
+              <i class="fab fa-instagram text-pink-600"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
