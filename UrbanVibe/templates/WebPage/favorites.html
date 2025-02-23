@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+ <head>
+  <title>
+   UrbanVibe
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   main {
+            font-family: 'Poppins', sans-serif;
+            padding-left: 180px;
+            padding-right: 180px;
+        }
+  </style>
+ </head>
+ <body class="bg-white">
+  <main class="p-8">
+   <section>
+    <h2 class="text-xl font-bold text-pink-600">
+     CUSTOMER FAVORITES
+    </h2>
+    <p class="text-pink-400">
+     Check what others are liking recently!
+    </p>
+   </section>
+   <section class="mt-8">
+    <h3 class="text-lg font-bold text-pink-600">
+     FASHION
+    </h3>
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-4">
+     <div class="">
+      <img class="w-full h-48 object-cover rounded-lg" src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRw7hY5aLKfXlxUB8H9GXcjLUNFgklaBafjZsWmQX2KV3AZ524hVAy4qFt41Ae0NRYeBKz7wdx-YmcQ1TLTAAR8W49IzAJ3cliQbqa44DY&usqp=CAE" alt="Corduroy Jacket">
+      <h4 class="mt-2">
+       Corduroy Jacket - Outer Cropped
+      </h4>
+      <p class="text-pink-600">
+       Rp160.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Slim Basic Grey Mini Tee Daily and Casual" class="w-full h-48 object-cover rounded-lg" height="200" src="https://i.pinimg.com/736x/be/0e/95/be0e95ca27bdf6de0c06406b8fc13d48.jpg" width="200"/>
+      <h4 class="mt-2">
+       Slim Basic Grey Mini Tee Daily and Casual
+      </h4>
+      <p class="text-pink-600">
+       Rp58.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Drop Shoulder Oversized Space Cardigan" class="w-full h-48 object-cover rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/fXpTStvRJByxtadqfRoyFtNCel8MTJ3QarrONEUbrbI.jpg" width="200"/>
+      <h4 class="mt-2">
+       Drop Shoulder Oversized Space Cardigan
+      </h4>
+      <p class="text-pink-600">
+       Rp130.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="W&amp;G - Ansel Flat Sandals Daily Womens Wear" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/sg-11134201-23010-9yz2ir9vlzlv1a.webp" width="200"/>
+      <h4 class="mt-2">
+       W&amp;G - Ansel Flat Sandals Daily Womens Wear
+      </h4>
+      <p class="text-pink-600">
+       Rp87.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+        <img alt="Women'Sport and Training Leggings" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/702e91c16fe7f29199c665adac379e51.webp" width="200"/>
+        <h4 class="mt-2">
+         Women'Sport and Training Leggings
+        </h4>
+        <p class="text-pink-600">
+         Rp164.000
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div>
+       <div class="">
+        <img alt="Olla Blouse - Flower Blouse Korean Style" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/id-11134207-7rasb-m0wt72tpnn5l56@resize_w900_nl.webp" width="200"/>
+        <h4 class="mt-2">
+         Flower Blouse - Long Sleeve Top Korean Style 
+        </h4>
+        <p class="text-pink-600">
+         Rp79.500
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div>
+       <div class="">
+        <img alt="Basic Longe Sleeve Shirt" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/id-11134207-7qul5-lhqd17427ptrd8.webp" width="200"/>
+        <h4 class="mt-2">
+         Basic Long Sleeve Shirt - Casual Linen Outer 
+        </h4>
+        <p class="text-pink-600">
+         Rp68.000
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div>
+       <div class="">
+        <img alt="Women'Sport and Training Leggings" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/id-11134207-7r98v-lvmo833qkfyd74.webp" width="200"/>
+        <h4 class="mt-2">
+         Denim Skirt - Mid length Elastic Waist
+        </h4>
+        <p class="text-pink-600">
+         Rp104.380
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div>
+    </div>
+   </section>
+   <section class="mt-8">
+    <h3 class="text-lg font-bold text-pink-600">
+     BEAUTY
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+     <div class="">
+      <img alt="HAPPY Skin – Mini Cushion Puff Soft and Blendy" class="w-full h-48 object-cover rounded-lg" height="200" src="https://happyskincosmetics.com/cdn/shop/files/MINICUSHIONPUFF2_2048x.jpg?v=1683295997" width="200"/>
+      <h4 class="mt-2">
+       HAPPY Skin – Mini Cushion Puff Soft and Blendy
+      </h4>
+      <p class="text-pink-600">
+       Rp12.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center2">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Cilo - Kill Lash Superproof Mascara" class="w-full h-48 object-cover rounded-lg" height="200" src="https://sevenyoung.com/wp-content/uploads/2023/12/Design-sans-titre-48-1.jpg" width="200"/>
+      <h4 class="mt-2">
+       Clio - Kill Lash Superproof Mascara
+      </h4>
+      <p class="text-pink-600">
+       Rp149.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="LANEIGE – Mini Berry Lip Sleeping Mask Treatment" class="w-full h-48 object-cover rounded-lg" height="200" src="https://hairpinsandscissors.com/cdn/shop/files/e46ab03cfbf22e8105e97764cfc293e9c5852987ba44373c232cda7c0f50b70e.png?v=1721167753" width="200"/>
+      <h4 class="mt-2">
+       LANEIGE – Mini Berry Lip Sleeping Mask Treatment
+      </h4>
+      <p class="text-pink-600">
+       Rp129.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Cetaphile - Gentle Skin Cleanser Face Wash" class="w-full h-48 object-cover rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/Fa7Sp2kdyIhBkaVrDt-0QGVNJ3hqkFeCTHjFt5ibeNQ.jpg" width="200"/>
+      <h4 class="mt-2">
+       Cetaphile - Gentle Skin Cleanser Face Wash
+      </h4>
+      <p class="text-pink-600">
+       Rp300.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+        <img alt="SKINTIFIC - Mugwort Micellar Water Makeup Remover" class="w-full h-48 object-cover rounded-lg" height="200" src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/104/MTA-142878037/skintific_skintific_mugwort_purifying_micellar_water_300_ml_full01_gwil2gjh.jpg" width="200"/>
+        <h4 class="mt-2">
+         SKINTIFIC - Mugwort Micellar Water Makeup Remover
+        </h4>
+        <p class="text-pink-600">
+         Rp89.000
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div><div class="">
+        <img alt="azarine hydrasoothe sunscreen gel" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/id-11134207-7r98o-lklyi7n1qa0bbf" width="200"/>
+        <h4 class="mt-2">
+        Azarine Hydrasoothe Sunscreen Gel SPF45 PS+++
+        </h4>
+        <p class="text-pink-600">
+         Rp33.000
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div><div class="">
+        <img alt="ROMAND - Juicy Lasting Lip Tint Bare" class="w-full h-48 object-cover rounded-lg" height="200" src="https://down-id.img.susercontent.com/file/d1ec35bd2aa841a12e422301a1cbdc05" width="200"/>
+        <h4 class="mt-2">
+         ROMAND - Juicy Lasting Lip Tint Bare (4 colors)
+        </h4>
+        <p class="text-pink-600">
+         Rp190.000
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div>
+       <div class="">
+        <img alt="Somethinc - Waterproof Liquid Eyeliner" class="w-full h-48 object-cover rounded-lg" height="200" src="https://images.somethinc.com/uploads/products/thumbs/800x800/EYE_MAKEUP_FOREVER_STAY_Waterproof_Liquid_Eyeliner.jpg" width="200"/>
+        <h4 class="mt-2">
+         Somethinc - Waterproof Liquid Eyeliner
+        </h4>
+        <p class="text-pink-600">
+         Rp82.400
+        </p>
+        <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+         <i class="fas fa-shopping-cart">
+         </i>
+        </button>
+       </div>
+    </div>
+   </section>
+   <section class="mt-8 bg-pink-50 p-4 rounded-lg">
+    <h3 class="text-lg font-bold text-pink-600">
+     Trending This Week: Most searched and frequently visited
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+     <div class="">
+      <img alt="Midi Skirt - Flowy White Summer Dress" class="w-full h-48 object-cover rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/bpjZbwL53QKmG9eu7PwddQhWG22aQysLS7WFmgo_AC0.jpg" width="200"/>
+      <h4 class="mt-2">
+       Midi Skirt - Flowy White Summer Dress
+      </h4>
+      <p class="text-pink-600">
+       Rp120.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Cropped Korean Waffle Cardigan" class="w-full h-48 object-cover rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/4SJX5uxY81dkhik6GtE0-LC437ii1Lai-PHDbNvHN7I.jpg" width="200"/>
+      <h4 class="mt-2">
+       Cropped Korean Waffle Cardigan
+      </h4>
+      <p class="text-pink-600">
+       Rp72.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Flat Sandals Cross Toe Strap Daily Casual Wear" class="w-full h-48 object-cover rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/pkniINnNF3OB4c0GYOlV5OfPNmO_sJF_7xxbu8Knsxs.jpg" width="200"/>
+      <h4 class="mt-2">
+       Flat Sandals Cross Toe Strap Daily Casual Wear
+      </h4>
+      <p class="text-pink-600">
+       Rp128.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+     <div class="">
+      <img alt="Shiloh Shoulder Bag - Black Sling bag" class="w-full h-48 object-cover rounded-lg" height="200" src="https://storage.googleapis.com/a1aa/image/P6Tl3sSHdAGgs8bTah_N73R59gT3YZSkTa5Ur-Y8C58.jpg" width="200"/>
+      <h4 class="mt-2">
+       Shiloh Shoulder Bag - Black Sling bag
+      </h4>
+      <p class="text-pink-600">
+       Rp300.000
+      </p>
+      <button class="mt-2 bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
+       <i class="fas fa-shopping-cart">
+       </i>
+      </button>
+     </div>
+    </div>
+   </section>
+  </main>
+ </body>
+</html>
+{% endblock %}

@@ -5,3 +5,7 @@ def index(request):
 
 def about_us(request):
     return render(request, 'WebPage/about_us.html')
+
+def favorites(request):
+    return render(request, 'WebPage/favorites.html')
+
