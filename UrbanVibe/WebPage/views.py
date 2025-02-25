@@ -6,6 +6,9 @@ def index(request):
 def about_us(request):
     return render(request, 'WebPage/about_us.html')
 
+def sign_up(request):
+    return render(request, 'WebPage/sign_up.html')
+
 def login_page(request):
     return render(request, 'WebPage/login_page.html')
 
