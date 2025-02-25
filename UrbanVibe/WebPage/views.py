@@ -15,3 +15,8 @@ def login_page(request):
 def favorites(request):
     return render(request, 'WebPage/favorites.html')
 
+def catalogue(request):
+    return render(request, 'WebPage/catalogue.html')
+
+def product_detail(request):
+    return render(request, 'WebPage/product_detail.html')
