@@ -20,3 +20,6 @@ def catalogue(request):
 
 def product_detail(request):
     return render(request, 'WebPage/product_detail.html')
+
+def cart(request):
+    return render(request, 'WebPage/shoppingcart.html')
