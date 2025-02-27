@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+</head>
+<body>
+    <h1>Product List</h1>
+
+    <h2>Fashion Products</h2>
+    <ul>
+        {% for product in fashion_products %}
+            <li>
+                <a href="{% url 'fashion_detail' product.pk %}">{{ product.name }}</a> - {{ product.price }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Beauty Products</h2>
+    <ul>
+        {% for product in beauty_products %}
+            <li>
+                <a href="{% url 'beauty_detail' product.pk %}">{{ product.name }}</a> - {{ product.price }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Accessories Products</h2>
+    <ul>
+        {% for product in accessories_products %}
+            <li>
+                <a href="{% url 'accessories_detail' product.pk %}">{{ product.name }}</a> - {{ product.price }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
