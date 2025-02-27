@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanVibe</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-center bg-white font-[Poppins]">
+    
+    <div class="container mx-auto mt-12">
+        <h1 class="text-pink-600 text-6xl font-bold">Thank you ! Sesar</h1>
+        <div class="w-1/2 mx-auto p-6 border-2 border-black rounded-xl bg-gradient-to-b from-white to-gray-100 text-left">
+            <h3 class="text-lg font-semibold">YOUR ORDER INFORMATION</h3>
+            <div class="flex justify-between gap-10 mt-2">
+                <div>
+                    <p class="font-semibold">Order Date:</p>
+                    <p>December 11, 2024</p>
+                </div>
+                <div>
+                    <p class="font-semibold">Bill To:</p>
+                    <p>123455@gmail.com</p>
+                </div>
+            </div>
+            <h3 class="text-lg font-semibold mt-4">HERE’S WHAT YOU ORDERED:</h3>
+            <table class="w-full border-collapse mt-2">
+                <tr class="border-b">
+                    <td class="p-2">White Solid Formal Shirt (blue, unisex xs)</td>
+                    <td class="p-2">Rp.100.000</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-2">White Solid Formal Shirt (blue, unisex xs)</td>
+                    <td class="p-2">Rp.100.000</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-2 font-semibold">TAX</td>
+                    <td class="p-2">Rp.100.000</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="p-2 font-semibold">DISCOUNT</td>
+                    <td class="p-2">Rp.100.000</td>
+                </tr>
+                <tr>
+                    <td class="p-2 font-semibold text-right pr-10">TOTAL :</td>
+                    <td class="p-2 font-bold text-pink-600">Rp.100.000</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}    
