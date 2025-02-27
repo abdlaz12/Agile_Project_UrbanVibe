@@ -21,5 +21,12 @@ def catalogue(request):
 def product_detail(request):
     return render(request, 'WebPage/product_detail.html')
 
-def cart(request):
+def shoppingcart(request):
     return render(request, 'WebPage/shoppingcart.html')
+
+def invoice(request):
+    return render(request, 'WebPage/invoice.html')
+
+
+def cart_view(request):
+    return render(request, 'WebPage/shoppingcart.html')  #
