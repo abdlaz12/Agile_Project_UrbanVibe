@@ -24,9 +24,9 @@ def favorites(request):
     return render(request, 'WebPage/favorites.html')
 
 def catalogue(request):
-    fashion_products = Fashion.objects.prefetch_related('images')[:8]
-    beauty_products = Beauty.objects.prefetch_related('images')[:8]
-    accessories_products = Accessories.objects.prefetch_related('images')[:8]
+    fashion_products = Fashion.objects.prefetch_related('images')
+    beauty_products = Beauty.objects.prefetch_related('images')
+    accessories_products = Accessories.objects.prefetch_related('images')
 
     context = {
         'fashion_products': fashion_products,
