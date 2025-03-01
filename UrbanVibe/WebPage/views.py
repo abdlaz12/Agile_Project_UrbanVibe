@@ -1,14 +1,15 @@
+
 from django.http import HttpResponse
 from django.core.files.storage import default_storage
-# views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from .forms import CustomerRegistrationForm, CustomerLoginForm
-from django.contrib.auth import login as auth_login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 
 
+
+from django.shortcuts import render
+from .models import product
 
 
 def index(request):
@@ -27,9 +28,9 @@ def favorites(request):
     return render(request, 'WebPage/favorites.html')
 
 def catalogue(request):
-    fashion_products = Fashion.objects.prefetch_related('images')
-    beauty_products = Beauty.objects.prefetch_related('images')
-    accessories_products = Accessories.objects.prefetch_related('images')
+    fashion_products = Fashion.objects.prefetch_related('images')[:8]
+    beauty_products = Beauty.objects.prefetch_related('images')[:8]
+    accessories_products = Accessories.objects.prefetch_related('images')[:8]
 
     context = {
         'fashion_products': fashion_products,
@@ -54,31 +55,25 @@ def cart_view(request):
 from django.shortcuts import render
 from .models import Fashion, Beauty, Accessories
 
-# View untuk menampilkan semua produk
 def product_list(request):
-    # Ambil data dari database
     fashion_products = Fashion.objects.all()
     beauty_products = Beauty.objects.all()
     accessories_products = Accessories.objects.all()
 
-    # Kirim data ke template
     return render(request, 'WebPage/product.html', {
         'fashion_products': fashion_products,
         'beauty_products': beauty_products,
         'accessories_products': accessories_products,
     })
 
-# View untuk menampilkan detail produk Fashion
 def fashion_detail(request, pk):
     fashion = Fashion.objects.get(pk=pk)
     return render(request, 'fashion_detail.html', {'fashion': fashion})
 
-# View untuk menampilkan detail produk Beauty
 def beauty_detail(request, pk):
     beauty = Beauty.objects.get(pk=pk)
     return render(request, 'beauty_detail.html', {'beauty': beauty})
 
-# View untuk menampilkan detail produk Accessories
 def accessories_detail(request, pk):
     accessories = Accessories.objects.get(pk=pk)
     return render(request, 'WebPage/accessories_detail.html', {'accessories': accessories})
@@ -110,11 +105,8 @@ def login_customer(request):
             user = authenticate(request, email=email, password=password)
 
             if user is not None:
-                # Gunakan auth_login agar tidak bentrok dengan nama fungsi
-                from django.contrib.auth import login as auth_login
-
-                # Login user
-                auth_login(request, user, backend='WebPage.backends.EmailBackend')
+                # Tentukan backend yang digunakan
+                login(request, user, backend='WebPage.backends.EmailBackend')
                 messages.success(request, 'Login successful!')
                 print(f"Login successful for user: {user.email}")  # Debugging
                 return redirect('index')
@@ -134,6 +126,7 @@ def logout_customer(request):
     messages.success(request, 'Logged out successfully!')
     return redirect('login')
 
+<<<<<<< Updated upstream
 @login_required
 def profile_view(request):
     return render(request, 'WebPage/userprofile.html', {'user': request.user})
@@ -141,3 +134,26 @@ def profile_view(request):
 def product_detail(request):
     product = product.objects.all()  
     return render(request, 'product_detail.html', {'product':product})
+=======
+def cart(request):
+    return render(request, 'WebPage/shoppingcart.html')
+
+def products_list(request):
+    product = product.objects.all()  
+    return render(request, 'favorites.html', {'product': product}) 
+
+def product_list(request):
+    fashion_products = product.objects.filter(category='Fashion')
+    beauty_products = product.objects.filter(category='Beauty')
+    trending_products = product.objects.filter(is_trending=True)
+
+    return render(request, 'your_template.html', {
+        'fashion_products': fashion_products,
+        'beauty_products': beauty_products,
+        'trending_products': trending_products,
+    })
+
+def product_detail(request):
+    product = product.objects.all()  
+    return render(request, 'product_detail.html', {'product': product}) 
+>>>>>>> Stashed changes

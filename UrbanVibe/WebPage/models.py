@@ -1,8 +1,8 @@
 from django.db import models
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django import forms
 from multiselectfield import MultiSelectField
-from django.core.exceptions import ValidationError
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -84,14 +84,9 @@ class Product(models.Model):
 # Fashion Model
 class Fashion(Product):
     sub_category = models.CharField(max_length=20, choices=FashionSubCategory.choices)
-    color = MultiSelectField(choices=COLOR_CHOICES, max_length=100)
-    size = MultiSelectField(choices=SIZE_CHOICES, max_length=50)
-    fashion_type = models.CharField(max_length=15, choices=FashionType.choices, null=True, blank=True)  # Allow null and blank
-
-    def clean(self):
-        """ Ensure fashion_type is only required if sub_category is not 'Dress' """
-        if self.sub_category != FashionSubCategory.DRESS and not self.fashion_type:
-            raise ValidationError({'fashion_type': 'This field is required.'})
+    color = MultiSelectField(choices=COLOR_CHOICES, max_length=100)  # Allows multiple colors
+    size = MultiSelectField(choices=SIZE_CHOICES, max_length=50)  # Allows multiple sizes
+    fashion_type = models.CharField(max_length=15, choices=FashionType.choices)
 
     def __str__(self):
         return f"{self.name} ({self.sub_category})"
@@ -122,11 +117,23 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.fashion or self.beauty or self.accessories}"
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
 class product(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField
     image = models.ImageField
 
+<<<<<<< Updated upstream
     def _str_(self):
         return f"{self.name} at {self.price}"
+=======
+    def __str__(self):
+        return f"{self.name} at {self.price}"
+
+  
+
+>>>>>>> Stashed changes
