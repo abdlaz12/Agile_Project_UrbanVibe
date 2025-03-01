@@ -25,16 +25,36 @@ def favorites(request):
     return render(request, 'WebPage/favorites.html')
 
 def catalogue(request):
-    fashion_products = Fashion.objects.prefetch_related('images')
-    beauty_products = Beauty.objects.prefetch_related('images')
-    accessories_products = Accessories.objects.prefetch_related('images')
+    category = request.GET.get('category', None)  # Get category from URL query
+    subcategory = request.GET.get('subcategory', None)  # Get subcategory from URL query
 
-    context = {
-        'fashion_products': fashion_products,
-        'beauty_products': beauty_products,
-        'accessories_products': accessories_products,
-    }
-    return render(request, 'WebPage/catalogue.html', context)
+    # Fetch products based on filters
+    if category == "fashion":
+        if subcategory:
+            fashion_products = Fashion.objects.filter(sub_category=subcategory)
+        else:
+            fashion_products = Fashion.objects.all()
+        beauty_products = []
+        accessories_products = []
+    elif category == "beauty":
+        fashion_products = []
+        beauty_products = Beauty.objects.all()
+        accessories_products = []
+    elif category == "accessories":
+        fashion_products = []
+        beauty_products = []
+        accessories_products = Accessories.objects.all()
+    else:
+        # Show all products if no category is selected
+        fashion_products = Fashion.objects.all()
+        beauty_products = Beauty.objects.all()
+        accessories_products = Accessories.objects.all()
+
+    return render(request, "WebPage/catalogue.html", {
+        "fashion_products": fashion_products,
+        "beauty_products": beauty_products,
+        "accessories_products": accessories_products,
+    })
 
 def shoppingcart(request):
     return render(request, 'WebPage/shoppingcart.html')
