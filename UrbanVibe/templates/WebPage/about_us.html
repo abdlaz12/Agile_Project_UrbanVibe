@@ -27,23 +27,42 @@
 
     <section class="container mx-auto px-4 py-12">
       <div class="flex flex-col md:flex-row items-center">
-        <div class="md:w-1/2 flex justify-center space-x-4">
-          <img alt="A set of makeup brushes in a pink holder" class="rounded-lg shadow-lg" height="200" src="https://storage.googleapis.com/a1aa/image/OQsdkNrWSeuyAUUDGJG_EPhhIT0HtoXeC-C6arsvxuA.jpg" width="200"/>
-          <img alt="Various makeup products laid out" class="rounded-lg shadow-lg" height="200" src="https://storage.googleapis.com/a1aa/image/2-1EZAwPr1L89P56v4xUzLHm1OfHbC-9NbUso7mkdrc.jpg" width="200"/>
+        <!-- Images Section -->
+        <div class="md:w-1/2 flex flex-col items-center">
+          <div>
+            <!-- Top Image -->
+            <img alt="A set of makeup brushes in a pink holder"
+              class="rounded-lg shadow-lg mb-4"
+              height="200" width="200"
+              src="https://storage.googleapis.com/a1aa/image/VPcgYpwUC2fZP84J4fCBy45_Xi00Fr3HGnSIAlLoJCw.jpg" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Bottom Left Image -->
+            <img alt="A stylish girl's outfit laid out, including a dress and accessories"
+              class="rounded-lg shadow-lg"
+              height="200" width="200"
+              src="https://storage.googleapis.com/a1aa/image/AWeOFPDUhRK54FmvLVctNjUO5ACyM__P0sB4MTlxAMA.jpg" />
+            <!-- Bottom Right Image -->
+            <img alt="A person holding a set of makeup products including brushes, eyeshadow, and lipstick" class="rounded-lg shadow-lg" height="200" src="https://storage.googleapis.com/a1aa/image/fyHor3zJ1Sy-DStJZ5jrU1T_8t-F3x633e9TNMdaP5c.jpg" width="200"/>
+          </div>
         </div>
+    
+        <!-- About Us Section -->
         <div class="md:w-1/2 mt-8 md:mt-0 md:pl-12">
-          <h2 class="text-3xl font-bold text-[#E38081] mb-4">
-            ABOUT US
-          </h2>
-          <p class="text-gray-700 mb-6">
-            At Sesaria, we empower self-expression with stylish clothing and high-quality makeup. Our collections blend trend and elegance, helping you look and feel your best. Beauty is confidence—embrace it with Sesaria.
-          </p>
+          <h2 class="text-3xl font-bold text-[#E38081] mb-4">ABOUT US</h2>
+          <div class="max-w-md"> <!-- Added a max-width wrapper -->
+            <p class="text-gray-700 mb-6">
+              At Sesaria, we empower self-expression with stylish clothing and high-quality makeup.
+              Our collections blend trend and elegance, helping you look and feel your best.
+              Beauty is confidence—embrace it with Sesaria.
+            </p>
+          </div>
           <button class="bg-[#D6AA85] text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-[#C2947B] transition-all">
             EXPLORE MORE
           </button>
         </div>
-      </div>
     </section>
+    
 
     <section class="bg-[#E38081] py-12">
       <div class="container mx-auto px-4 text-center">
@@ -89,7 +108,7 @@
           <img alt="Sesaria Tamara Kiki, CEO & Founder" class="rounded-full w-24 h-24" height="100" src="https://storage.googleapis.com/a1aa/image/ng6mh6nBXt-3icrBiJvW0ku6RAsH_UG6Re31N9B8SOQ.jpg" width="100"/>
           <div>
             <h3 class="text-xl font-bold text-pink-600">SESARIA TAMARA KIKI</h3>
-            <p class="text-gray-700 ">CEO &amp; Founder</p>
+            <p class="font-bold text-gray-700 ">CEO &amp; Founder</p>
             <p class="text-gray-700">CEO and Founder with over 12 years of experience in the industry. She is passionate about innovation and strives to create products that cater to customer needs.</p>
             <div class="flex space-x-2 mt-2">
               <i class="fab fa-whatsapp text-green-500"></i>
