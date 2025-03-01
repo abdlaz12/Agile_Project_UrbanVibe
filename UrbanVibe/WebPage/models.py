@@ -122,3 +122,11 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.fashion or self.beauty or self.accessories}"
+    
+class product(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.IntegerField
+    image = models.ImageField
+
+    def _str_(self):
+        return f"{self.name} at {self.price}"

@@ -134,9 +134,10 @@ def logout_customer(request):
     messages.success(request, 'Logged out successfully!')
     return redirect('login')
 
-
-
-
 @login_required
 def profile_view(request):
     return render(request, 'WebPage/userprofile.html', {'user': request.user})
+
+def product_detail(request):
+    product = product.objects.all()  
+    return render(request, 'product_detail.html', {'product':product})
