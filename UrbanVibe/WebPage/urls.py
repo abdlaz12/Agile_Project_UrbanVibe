@@ -20,6 +20,7 @@ urlpatterns = [
     path('fashion/<int:pk>/', views.fashion_detail, name='fashion_detail'),
     path('beauty/<int:pk>/', views.beauty_detail, name='beauty_detail'),
     path('accessories/<int:pk>/', views.accessories_detail, name='accessories_detail'),
+    path('profile/', views.profile_view, name='profile'),
 ]
 
 if settings.DEBUG:

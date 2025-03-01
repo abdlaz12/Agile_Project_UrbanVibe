@@ -11,28 +11,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-
     <!-- Navbar -->
     <header class="bg-pink-200 py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
-          <a class="text-4xl font-bold text-pink-600" href = '{% url "index" %}'>
-            UrbanVibe
-          </a>
-          <nav class="space-x-6">
-            <a class="text-pink-600 hover:text-pink-800" href="{% url 'catalogue' %}">Catalogue</a>
-            <a class="text-pink-600 hover:text-pink-800" href="{% url 'favorites' %}">Favorites</a>
-            <a class="text-pink-600 hover:text-pink-800" href="{% url 'about_us' %}">About</a>
-          </nav>
-          <div class="flex items-center space-x-4">
-            <a href="{% url 'cart' %}">
-                <i class="fas fa-shopping-cart text-pink-600"></i>
+            <a class="text-4xl font-bold text-pink-600" href="{% url 'index' %}">
+                UrbanVibe
             </a>
-            <button class="bg-white text-pink-600 border border-pink-600 px-4 py-2 rounded-full hover:bg-pink-600 hover:text-white">
-              Get Started
-            </button>
-          </div>
+            <nav class="space-x-6">
+                <a class="text-pink-600 hover:text-pink-800" href="{% url 'catalogue' %}">Catalogue</a>
+                <a class="text-pink-600 hover:text-pink-800" href="{% url 'favorites' %}">Favorites</a>
+                <a class="text-pink-600 hover:text-pink-800" href="{% url 'about_us' %}">About</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-cart text-pink-600"></i>
+                </a>
+                <p>Debug: {% if user.is_authenticated %} Authenticated {% else %} Not Authenticated {% endif %}</p>
+
+
+                {% if user.is_authenticated %}
+                    <!-- Jika user sudah login, tampilkan avatar -->
+                    <a href="{% url 'profile' %}" class="w-10 h-10 rounded-full bg-pink-600 flex items-center justify-center text-white font-bold">
+                        {{ user.full_name|slice:":1" }}
+                    </a>
+                {% else %}
+                    <!-- Jika belum login, tampilkan tombol Get Started -->
+                    <a href="{% url 'login' %}" class="bg-white text-pink-600 border border-pink-600 px-4 py-2 rounded-full hover:bg-pink-600 hover:text-white">
+                        Get Started
+                    </a>
+                {% endif %}
+            </div>
         </div>
-      </header>
+    </header>
+
 
     <!-- Konten dari halaman lain akan masuk di sini -->
     <main class="min-h-screen">

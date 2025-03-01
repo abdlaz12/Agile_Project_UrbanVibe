@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from .forms import CustomerRegistrationForm, CustomerLoginForm
+from django.contrib.auth import login as auth_login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -107,8 +110,11 @@ def login_customer(request):
             user = authenticate(request, email=email, password=password)
 
             if user is not None:
-                # Tentukan backend yang digunakan
-                login(request, user, backend='WebPage.backends.EmailBackend')
+                # Gunakan auth_login agar tidak bentrok dengan nama fungsi
+                from django.contrib.auth import login as auth_login
+
+                # Login user
+                auth_login(request, user, backend='WebPage.backends.EmailBackend')
                 messages.success(request, 'Login successful!')
                 print(f"Login successful for user: {user.email}")  # Debugging
                 return redirect('index')
@@ -127,3 +133,10 @@ def logout_customer(request):
     logout(request)
     messages.success(request, 'Logged out successfully!')
     return redirect('login')
+
+
+
+
+@login_required
+def profile_view(request):
+    return render(request, 'WebPage/userprofile.html', {'user': request.user})

@@ -1,7 +1,7 @@
-from django.contrib.auth.backends import ModelBackend
-from WebPage.models import CustomUser  # Sesuaikan dengan model yang digunakan
+from django.contrib.auth.backends import BaseBackend
+from WebPage.models import CustomUser
 
-class EmailBackend(ModelBackend):
+class EmailBackend(BaseBackend):
     def authenticate(self, request, email=None, password=None, **kwargs):
         try:
             user = CustomUser.objects.get(email=email)
@@ -11,3 +11,9 @@ class EmailBackend(ModelBackend):
         if user.check_password(password):
             return user
         return None
+
+    def get_user(self, user_id):
+        try:
+            return CustomUser.objects.get(pk=user_id)
+        except CustomUser.DoesNotExist:
+            return None
