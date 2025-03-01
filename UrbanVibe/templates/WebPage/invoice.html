@@ -1,57 +1,178 @@
+<!-- invoicehtml -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrbanVibe</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sesaria</title>
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        .order-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-summary {
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        .footer-section {
+            margin-bottom: 2rem;
+            min-width: 200px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+    </style>
 </head>
-<body class="text-center bg-white font-[Poppins]">
-    
-    <div class="container mx-auto mt-12">
-        <h1 class="text-pink-600 text-6xl font-bold">Thank you ! Sesar</h1>
-        <div class="w-1/2 mx-auto p-6 border-2 border-black rounded-xl bg-gradient-to-b from-white to-gray-100 text-left">
-            <h3 class="text-lg font-semibold">YOUR ORDER INFORMATION</h3>
-            <div class="flex justify-between gap-10 mt-2">
+
+<body>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <div class="text-center py-10">
+            <h1 class="text-6xl font-bold text-pink-500">Thank you ! Sesar</h1>
+        </div>
+        
+        <div class="order-container ">
+            <h2 class="text-xl font-bold mb-6">YOUR ORDER INFORMATION</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                    <p class="font-semibold">Order Date:</p>
-                    <p>December 11, 2024</p>
+                    <p class="font-bold">Order Date :</p>
+                    <p id="orderDate">Desember 11, 2024</p>
                 </div>
                 <div>
-                    <p class="font-semibold">Bill To:</p>
+                    <p class="font-bold">Bill To :</p>
                     <p>123455@gmail.com</p>
                 </div>
             </div>
-            <h3 class="text-lg font-semibold mt-4">HERE’S WHAT YOU ORDERED:</h3>
-            <table class="w-full border-collapse mt-2">
-                <tr class="border-b">
-                    <td class="p-2">White Solid Formal Shirt (blue, unisex xs)</td>
-                    <td class="p-2">Rp.100.000</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="p-2">White Solid Formal Shirt (blue, unisex xs)</td>
-                    <td class="p-2">Rp.100.000</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="p-2 font-semibold">TAX</td>
-                    <td class="p-2">Rp.100.000</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="p-2 font-semibold">DISCOUNT</td>
-                    <td class="p-2">Rp.100.000</td>
-                </tr>
-                <tr>
-                    <td class="p-2 font-semibold text-right pr-10">TOTAL :</td>
-                    <td class="p-2 font-bold text-pink-600">Rp.100.000</td>
-                </tr>
-            </table>
+            
+            <h3 class="font-bold mb-4">HERE'S WHAT YOU ORDERED:</h3>
+            
+            <div class="mb-4" id="orderItems">
+                <!-- Item template - will be populated by JavaScript -->
+                <div class="border-t border-b border-gray-300 py-3 flex justify-between items-center bg-gray-100 px-4">
+                    <p>White Solid Formal Shirt (blue, unisex xs)</p>
+                    <p>Rp.100.000</p>
+                </div>
+                
+                <div class="border-b border-gray-300 py-3 flex justify-between items-center px-4">
+                    <p>White Solid Formal Shirt (blue, unisex xs)</p>
+                    <p>Rp.100.000</p>
+                </div>
+                <div class="h-8"></div>
+                <div class="py-3 flex justify-between items-center px-4">
+                    <p>TAX</p>
+                    <p id="taxAmount">Rp.60.000</p>
+                </div>
+                
+                <div class="py-3 flex justify-between items-center px-4">
+                    <p id="discountLabel">DISCOUNT</p>
+                    <p id="discountAmount">Rp.0</p>
+                </div>
+            </div>
+            
+            <div class="order-summary">
+                <div class="border border-gray-300 inline-block px-4 py-2">
+                    <p id="totalAmount"><span class="font-bold">TOTAL : </span>Rp.260.000</p>
+                </div>
+            </div>
         </div>
-    </div>
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const cartDataStr = localStorage.getItem('cartData');
+            const voucherCode = localStorage.getItem('voucherCode');
+            
+            if (cartDataStr) {
+                try {
+                    const cartData = JSON.parse(cartDataStr);
+                    
+                    
+                    updateInvoiceDisplay(cartData, voucherCode);
+                } catch (e) {
+                    console.error('Error parsing cart data:', e);
+                }
+            }
+        });
+
+        function updateInvoiceDisplay(cartData, voucherCode) {
+            
+            const orderItems = document.getElementById('orderItems');
+            const itemsHTML = [];
+            cartData.items.forEach((item, index) => {
+                const bgClass = index === 0 ? 'bg-gray-100' : '';
+                const borderClass = index === cartData.items.length - 1 ? 'border-b' : 'border-t border-b';
+                
+                itemsHTML.push(`
+                    <div class="${borderClass} border-gray-300 py-3 flex justify-between items-center ${bgClass} px-4">
+                        <p>${item.name} (${item.color.toLowerCase()}, ${item.size.toLowerCase()}) x${item.quantity}</p>
+                        <p>Rp. ${(item.price * item.quantity).toLocaleString()}</p>
+                    </div>
+                `);
+            });
+
+            itemsHTML.push('<div class="h-8"></div>');
+            itemsHTML.push(`
+                <div class="py-3 flex justify-between items-center px-4">
+                    <p>TAX</p>
+                    <p id="taxAmount">Rp. ${cartData.tax.toLocaleString()}</p>
+                </div>
+            `);
+            let discountLabel = "DISCOUNT";
+            if (voucherCode) {
+                discountLabel = `DISCOUNT (Voucher: ${voucherCode})`;
+            }
+            itemsHTML.push(`
+                <div class="py-3 flex justify-between items-center px-4">
+                    <p id="discountLabel">${discountLabel}</p>
+                    <p id="discountAmount">Rp. ${cartData.discount.toLocaleString()}</p>
+                </div>
+            `);
+            
+
+            orderItems.innerHTML = itemsHTML.join('');
+
+            document.getElementById('totalAmount').innerHTML = `<span class="font-bold">TOTAL : </span>Rp. ${cartData.total.toLocaleString()}`;
+            const orderDateElem = document.getElementById('orderDate');
+            if (orderDateElem) {
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                orderDateElem.textContent = today.toLocaleDateString('id-ID', options);
+            }
+        }
+    </script>
+    </main>
+dddd
+    
 </body>
 </html>
-{% endblock %}    
+{% endblock %}
