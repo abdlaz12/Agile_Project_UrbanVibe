@@ -23,11 +23,9 @@
                 <a class="text-pink-600 hover:text-pink-800" href="{% url 'about_us' %}">About</a>
             </nav>
             <div class="flex items-center space-x-4">
-                <a href="{% url 'cart' %}">
+                <a href="{% url 'shoppingcart' %}">
                     <i class="fas fa-shopping-cart text-pink-600"></i>
                 </a>
-                <p>Debug: {% if user.is_authenticated %} Authenticated {% else %} Not Authenticated {% endif %}</p>
-
 
                 {% if user.is_authenticated %}
                     <!-- Jika user sudah login, tampilkan avatar -->
@@ -46,7 +44,7 @@
 
 
     <!-- Konten dari halaman lain akan masuk di sini -->
-    <main class="min-h-screen">
+    <main class="min-h-screen mx-auto max-w-[1320px] px-4">
         {% block content %}
         {% endblock %}
     </main>

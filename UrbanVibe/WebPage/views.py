@@ -3,13 +3,13 @@ from django.http import HttpResponse
 from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomerRegistrationForm, CustomerLoginForm
 
 
-
 from django.shortcuts import render
-from .models import product
+from .models import *
 
 
 def index(request):
@@ -21,16 +21,13 @@ def about_us(request):
 def sign_up(request):
     return render(request, 'WebPage/sign_up.html')
 
-def login_page(request):
-    return render(request, 'WebPage/login_page.html')
-
 def favorites(request):
     return render(request, 'WebPage/favorites.html')
 
 def catalogue(request):
-    fashion_products = Fashion.objects.prefetch_related('images')[:8]
-    beauty_products = Beauty.objects.prefetch_related('images')[:8]
-    accessories_products = Accessories.objects.prefetch_related('images')[:8]
+    fashion_products = Fashion.objects.prefetch_related('images')
+    beauty_products = Beauty.objects.prefetch_related('images')
+    accessories_products = Accessories.objects.prefetch_related('images')
 
     context = {
         'fashion_products': fashion_products,
@@ -39,32 +36,11 @@ def catalogue(request):
     }
     return render(request, 'WebPage/catalogue.html', context)
 
-def product_detail(request):
-    return render(request, 'WebPage/product_detail.html')
-
 def shoppingcart(request):
     return render(request, 'WebPage/shoppingcart.html')
 
 def invoice(request):
     return render(request, 'WebPage/invoice.html')
-
-
-def cart_view(request):
-    return render(request, 'WebPage/shoppingcart.html') 
-
-from django.shortcuts import render
-from .models import Fashion, Beauty, Accessories
-
-def product_list(request):
-    fashion_products = Fashion.objects.all()
-    beauty_products = Beauty.objects.all()
-    accessories_products = Accessories.objects.all()
-
-    return render(request, 'WebPage/product.html', {
-        'fashion_products': fashion_products,
-        'beauty_products': beauty_products,
-        'accessories_products': accessories_products,
-    })
 
 def fashion_detail(request, pk):
     fashion = Fashion.objects.get(pk=pk)
@@ -126,7 +102,6 @@ def logout_customer(request):
     messages.success(request, 'Logged out successfully!')
     return redirect('login')
 
-<<<<<<< Updated upstream
 @login_required
 def profile_view(request):
     return render(request, 'WebPage/userprofile.html', {'user': request.user})
@@ -134,7 +109,6 @@ def profile_view(request):
 def product_detail(request):
     product = product.objects.all()  
     return render(request, 'product_detail.html', {'product':product})
-=======
 def cart(request):
     return render(request, 'WebPage/shoppingcart.html')
 
@@ -156,4 +130,3 @@ def product_list(request):
 def product_detail(request):
     product = product.objects.all()  
     return render(request, 'product_detail.html', {'product': product}) 
->>>>>>> Stashed changes

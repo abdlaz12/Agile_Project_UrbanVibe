@@ -86,8 +86,8 @@ class Fashion(Product):
     sub_category = models.CharField(max_length=20, choices=FashionSubCategory.choices)
     color = MultiSelectField(choices=COLOR_CHOICES, max_length=100)  # Allows multiple colors
     size = MultiSelectField(choices=SIZE_CHOICES, max_length=50)  # Allows multiple sizes
-    fashion_type = models.CharField(max_length=15, choices=FashionType.choices)
-
+    fashion_type = models.CharField(max_length=15, null=True, blank=True, choices=FashionType.choices)
+    
     def __str__(self):
         return f"{self.name} ({self.sub_category})"
 
@@ -117,23 +117,15 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.fashion or self.beauty or self.accessories}"
-<<<<<<< Updated upstream
     
-=======
 
->>>>>>> Stashed changes
 class product(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField
     image = models.ImageField
 
-<<<<<<< Updated upstream
-    def _str_(self):
-        return f"{self.name} at {self.price}"
-=======
     def __str__(self):
         return f"{self.name} at {self.price}"
 
   
 
->>>>>>> Stashed changes
