@@ -75,7 +75,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
 
     class Meta:
@@ -117,15 +117,3 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.fashion or self.beauty or self.accessories}"
-    
-
-class product(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.IntegerField
-    image = models.ImageField
-
-    def __str__(self):
-        return f"{self.name} at {self.price}"
-
-  
-

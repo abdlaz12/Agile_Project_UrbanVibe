@@ -109,24 +109,6 @@ def profile_view(request):
 def product_detail(request):
     product = product.objects.all()  
     return render(request, 'product_detail.html', {'product':product})
+
 def cart(request):
     return render(request, 'WebPage/shoppingcart.html')
-
-def products_list(request):
-    product = product.objects.all()  
-    return render(request, 'favorites.html', {'product': product}) 
-
-def product_list(request):
-    fashion_products = product.objects.filter(category='Fashion')
-    beauty_products = product.objects.filter(category='Beauty')
-    trending_products = product.objects.filter(is_trending=True)
-
-    return render(request, 'your_template.html', {
-        'fashion_products': fashion_products,
-        'beauty_products': beauty_products,
-        'trending_products': trending_products,
-    })
-
-def product_detail(request):
-    product = product.objects.all()  
-    return render(request, 'product_detail.html', {'product': product}) 
