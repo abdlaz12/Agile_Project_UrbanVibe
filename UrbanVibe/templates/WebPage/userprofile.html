@@ -12,7 +12,7 @@
 </head>
 <body class="bg-gray-100">
     <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10">
-        <h1 class="text-2xl font-bold mb-2">Profil Saya</h1>
+        <h1 class="text-2xl font-bold mb-4">Profil Saya</h1>
 
         <!-- Kontainer Grid -->
         <div class="grid grid-cols-3 gap-6">
@@ -47,7 +47,14 @@
             <div class="flex flex-col items-center">
                 <a href="{% url 'profile' %}" 
                 class="w-60 h-60 rounded-full bg-pink-600 flex items-center justify-center text-white font-bold text-9xl">
-                    {{ user.full_name|slice:":1" }}
+                    {{ user.full_name|slice:"1" }}
+                </a>
+                
+                <!-- Tombol Logout -->
+                <a href="{% url 'logout' %}" 
+                class="mt-4 px-4 py-2 bg-pink-600 text-white font-medium rounded-lg 
+                        hover:bg-white hover:text-pink-600 border border-pink-600 transition">
+                    Logout
                 </a>
             </div>
         </div>

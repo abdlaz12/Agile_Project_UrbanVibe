@@ -82,7 +82,10 @@ def register_customer(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            login(request, user)
+
+            # Pastikan untuk menyebutkan backend yang digunakan
+            login(request, user, backend='WebPage.backends.EmailBackend')
+
             messages.success(request, 'Registration successful!')
             return redirect('index')
     else:
