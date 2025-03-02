@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>UrbanVibe - Checkout</title>
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+        main {
+            font-family: 'Poppins', sans-serif;
+            padding-left: 180px;
+            padding-right: 180px;
+        }
+        .checkout-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+    </style>
+</head>
+<body data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+    <div class="p-5">
+        <h2 class="text-3xl font-bold text-pink-400">Checkout</h2>
+    </div>
+    
+    <div class="checkout-container">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Left Side: Shipping Address -->
+            <div class="w-full md:w-1/2">
+                <div class="bg-white p-6 shadow-md rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Shipping Address</h3>
+                    <form id="checkout-form" method="post" action="{% url 'checkout' %}">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="fullname" name="fullname" value="{{ user.full_name }}" class="mt-1 block w-full border p-2 rounded" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" class="mt-1 block w-full border p-2 rounded" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="{{ user.phone_number|default:'' }}" class="mt-1 block w-full border p-2 rounded" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                            <textarea id="address" name="address" class="mt-1 block w-full border p-2 rounded" rows="3" required>{{ user.address|default:'' }}</textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="mb-4">
+                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                                <input type="text" id="city" name="city" class="mt-1 block w-full border p-2 rounded" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="state" class="block text-sm font-medium text-gray-700">State/Province</label>
+                                <input type="text" id="state" name="state" class="mt-1 block w-full border p-2 rounded" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="zipcode" class="block text-sm font-medium text-gray-700">Zip/Postal Code</label>
+                            <input type="text" id="zipcode" name="zipcode" class="mt-1 block w-full border p-2 rounded" required>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Right Side: Order Summary -->
+            <div class="w-full md:w-1/2">
+                <div class="bg-white p-6 shadow-md rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Order Summary</h3>
+                    
+                    <div class="border-t border-gray-200 pt-4 mb-4">
+                        {% for item in items %}
+                        <div class="flex justify-between py-2">
+                            <div>
+                                <p class="font-medium">{{ item.get_product.name }}</p>
+                                <p class="text-sm text-gray-600">
+                                    {% if item.color %}Color: {{ item.color }}{% endif %}
+                                    {% if item.size %}, Size: {{ item.size }}{% endif %}
+                                    , Qty: {{ item.quantity }}
+                                </p>
+                            </div>
+                            <p>Rp. {{ item.get_total|floatformat:"0"|intcomma }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between py-2">
+                            <p>Subtotal</p>
+                            <p>Rp. {{ order.get_cart_total|floatformat:"0"|intcomma }}</p>
+                        </div>
+                        
+                        <div class="flex justify-between py-2">
+                            <p>Tax (10%)</p>
+                            <p>Rp. {{ order.get_final_total.1|floatformat:"0"|intcomma }}</p>
+                        </div>
+                        
+                        {% if order.discount_amount > 0 %}
+                        <div class="flex justify-between py-2">
+                            <p>Discount {% if order.voucher_code %}({{ order.voucher_code }}){% endif %}</p>
+                            <p>- Rp. {{ order.discount_amount|floatformat:"0"|intcomma }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="flex justify-between py-2 font-semibold">
+                            <p>Total</p>
+                            <p>Rp. {{ order.get_final_total.0|floatformat:"0"|intcomma }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-2">Payment Method</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="payment" value="transfer" checked class="mr-2">
+                                <span>Bank Transfer</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="payment" value="credit" class="mr-2">
+                                <span>Credit Card</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="payment" value="wallet" class="mr-2">
+                                <span>E-Wallet</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="place-order-btn" class="w-full bg-[#d4b298] text-white py-3 mt-6 rounded-lg font-medium">
+                        PLACE ORDER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const checkoutForm = document.getElementById('checkout-form');
+            
+            if (placeOrderBtn && checkoutForm) {
+                placeOrderBtn.addEventListener('click', function() {
+                    // Validate form
+                    if (checkoutForm.checkValidity()) {
+                        checkoutForm.submit();
+                    } else {
+                        // Trigger HTML5 validation
+                        checkoutForm.reportValidity();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}
