@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django import forms
 from multiselectfield import MultiSelectField
@@ -117,3 +117,130 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.fashion or self.beauty or self.accessories}"
+    
+# Order Model for Shopping Cart
+class Order(models.Model):
+    ORDER_STATUS = (
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    )
+    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
+    voucher_code = models.CharField(max_length=20, null=True, blank=True)
+    discount_amount = models.IntegerField(default=0)
+    
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+    
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+    
+    @property
+    def get_final_total(self):
+        total = self.get_cart_total
+        tax = int(total * 0.10)  # 10% tax
+        final_total = total + tax - self.discount_amount
+        return final_total, tax
+    
+    def __str__(self):
+        return f"Order {self.id} - {self.user.email if self.user else 'Guest'}"
+
+# OrderItem Model
+class OrderItem(models.Model):
+    PRODUCT_TYPE_CHOICES = (
+        ('fashion', 'Fashion'),
+        ('beauty', 'Beauty'),
+        ('accessories', 'Accessories'),
+    )
+    
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE_CHOICES)
+    product_id = models.IntegerField()
+    quantity = models.IntegerField(default=1)
+    date_added = models.DateTimeField(auto_now_add=True)
+    color = models.CharField(max_length=20, null=True, blank=True)
+    size = models.CharField(max_length=10, null=True, blank=True)
+    
+    @property
+    def get_product(self):
+        try:
+            if self.product_type == 'fashion':
+                return Fashion.objects.get(product_id=self.product_id)
+            elif self.product_type == 'beauty':
+                return Beauty.objects.get(product_id=self.product_id)
+            elif self.product_type == 'accessories':
+                return Accessories.objects.get(product_id=self.product_id)
+        except (Fashion.DoesNotExist, Beauty.DoesNotExist, Accessories.DoesNotExist):
+            return None
+        return None
+    
+    @property
+    def get_total(self):
+        product = self.get_product
+        return product.price * self.quantity if product else 0
+    
+    def __str__(self):
+        return f"{self.quantity} x {self.get_product.name if self.get_product else 'Unknown Product'}"
+
+# Shipping Address Model
+class ShippingAddress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+    zipcode = models.CharField(max_length=200)
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.address
+
+# Wishlist Model (Optional)
+class Wishlist(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Wishlist for {self.user.email}"
+
+# WishlistItem Model (Optional)
+class WishlistItem(models.Model):
+    PRODUCT_TYPE_CHOICES = (
+        ('fashion', 'Fashion'),
+        ('beauty', 'Beauty'),
+        ('accessories', 'Accessories'),
+    )
+    
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name='items')
+    product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE_CHOICES)
+    product_id = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    @property
+    def get_product(self):
+        try:
+            if self.product_type == 'fashion':
+                return Fashion.objects.get(product_id=self.product_id)
+            elif self.product_type == 'beauty':
+                return Beauty.objects.get(product_id=self.product_id)
+            elif self.product_type == 'accessories':
+                return Accessories.objects.get(product_id=self.product_id)
+        except (Fashion.DoesNotExist, Beauty.DoesNotExist, Accessories.DoesNotExist):
+            return None
+        return None
+    
+    def __str__(self):
+        product = self.get_product
+        return f"{product.name if product else 'Unknown Product'}"

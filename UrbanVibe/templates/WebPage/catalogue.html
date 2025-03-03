@@ -45,14 +45,27 @@
         {% for product in fashion_products %}
         <div class="bg-white p-4 rounded-lg flex flex-col text-center shadow-md">
             {% with product.images.first as img %}
-                <img src="{{ img.image.url }}" alt="{{ product.name }}" class="w-full aspect-[3/4] object-cover mb-4 rounded-lg" />
+                {% if img %}
+                    <img src="{{ img.image.url }}" alt="{{ product.name }}" class="w-full aspect-[3/4] object-cover mb-4 rounded-lg" />
+                {% else %}
+                    <div class="w-full aspect-[3/4] bg-gray-200 flex items-center justify-center mb-4 rounded-lg">
+                        <span class="text-gray-400">No Image</span>
+                    </div>
+                {% endif %}
             {% endwith %}
             <h2 class="text-lg font-normal mb-2">{{ product.name }}</h2>
             
             <!-- Flexbox container for price and cart -->
             <div class="flex justify-between items-center mt-auto">
                 <p class="text-pink-500 text-lg">Rp {{ product.price|intcomma }}</p>
-                <button class="bg-pink-500 text-white px-4 py-2 rounded-lg flex items-center justify-center">
+                <button 
+                    class="bg-pink-500 text-white px-4 py-2 rounded-lg flex items-center justify-center cart-button"
+                    data-id="{{ product.product_id }}"
+                    data-type="fashion"
+                    data-name="{{ product.name }}"
+                    data-price="{{ product.price }}"
+                    data-sizes="{{ product.size|join:',' }}"
+                    data-colors="{{ product.color|join:',' }}">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
             </div>
@@ -66,14 +79,25 @@
         {% for product in beauty_products %}
         <div class="bg-white p-4 rounded-lg flex flex-col text-center shadow-md">
             {% with product.images.first as img %}
-                <img src="{{ img.image.url }}" alt="{{ product.name }}" class="w-full aspect-[3/4] object-cover mb-4 rounded-lg" />
+                {% if img %}
+                    <img src="{{ img.image.url }}" alt="{{ product.name }}" class="w-full aspect-[3/4] object-cover mb-4 rounded-lg" />
+                {% else %}
+                    <div class="w-full aspect-[3/4] bg-gray-200 flex items-center justify-center mb-4 rounded-lg">
+                        <span class="text-gray-400">No Image</span>
+                    </div>
+                {% endif %}
             {% endwith %}
             <h2 class="text-lg font-normal mb-2">{{ product.name }}</h2>
             
             <!-- Flexbox container for price and cart -->
             <div class="flex justify-between items-center mt-auto">
                 <p class="text-pink-500 text-lg">Rp {{ product.price|intcomma }}</p>
-                <button class="bg-pink-500 text-white px-4 py-2 rounded-lg flex items-center justify-center">
+                <button 
+                    class="bg-pink-500 text-white px-4 py-2 rounded-lg flex items-center justify-center cart-button"
+                    data-id="{{ product.product_id }}"
+                    data-type="beauty"
+                    data-name="{{ product.name }}"
+                    data-price="{{ product.price }}">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
             </div>
@@ -87,14 +111,25 @@
         {% for product in accessories_products %}
         <div class="bg-white p-4 rounded-lg flex flex-col text-center shadow-md">
             {% with product.images.first as img %}
-                <img src="{{ img.image.url }}" alt="{{ product.name }}" class="w-full h-72 object-cover mb-4 rounded-lg" />
+                {% if img %}
+                    <img src="{{ img.image.url }}" alt="{{ product.name }}" class="w-full h-72 object-cover mb-4 rounded-lg" />
+                {% else %}
+                    <div class="w-full h-72 bg-gray-200 flex items-center justify-center mb-4 rounded-lg">
+                        <span class="text-gray-400">No Image</span>
+                    </div>
+                {% endif %}
             {% endwith %}
             <h2 class="text-lg font-normal mb-2">{{ product.name }}</h2>
             
             <!-- Flexbox container for price and cart -->
             <div class="flex justify-between items-center mt-auto">
                 <p class="text-pink-500 text-lg">Rp {{ product.price|intcomma }}</p>
-                <button class="bg-pink-500 text-white px-4 py-2 rounded-lg flex items-center justify-center">
+                <button 
+                    class="bg-pink-500 text-white px-4 py-2 rounded-lg flex items-center justify-center cart-button"
+                    data-id="{{ product.product_id }}"
+                    data-type="accessories"
+                    data-name="{{ product.name }}"
+                    data-price="{{ product.price }}">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
             </div>
@@ -102,4 +137,259 @@
         {% endfor %}
     </div>
 </div>
+
+<!-- Add to Cart Modal -->
+<div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 w-80 md:w-96">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold" id="modal-product-name">Add to Cart</h3>
+            <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Size Selection - Only shown for fashion products -->
+        <div id="size-selection" class="mb-4 hidden">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Size:</label>
+            <select id="product-size" class="w-full border rounded p-1"></select>
+        </div>
+        
+        <!-- Color Selection - Only shown for fashion products -->
+        <div id="color-selection" class="mb-4 hidden">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Color:</label>
+            <select id="product-color" class="w-full border rounded p-1"></select>
+        </div>
+        
+        <!-- Quantity Selection -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Quantity:</label>
+            <div class="flex">
+                <button id="decrease-qty" class="px-3 py-1 bg-gray-200 rounded-l">-</button>
+                <input type="number" id="product-qty" class="w-16 text-center border-y" value="1" min="1" max="10">
+                <button id="increase-qty" class="px-3 py-1 bg-gray-200 rounded-r">+</button>
+            </div>
+        </div>
+        
+        <button id="add-to-cart-btn" class="w-full bg-pink-500 text-white py-2 rounded">
+            Add to Cart
+        </button>
+    </div>
+</div>
+
+<!-- Add to Cart Success Notification -->
+<div id="cart-notification" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg transform transition-transform duration-300 translate-x-full">
+    <p id="notification-message"></p>
+</div>
+
+<script>
+    // CSRF Token
+    const csrfToken = "{{ csrf_token }}";
+    
+    // Modal elements
+    const modal = document.getElementById('cart-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalProductName = document.getElementById('modal-product-name');
+    const sizeSelection = document.getElementById('size-selection');
+    const colorSelection = document.getElementById('color-selection');
+    const productSize = document.getElementById('product-size');
+    const productColor = document.getElementById('product-color');
+    const productQty = document.getElementById('product-qty');
+    const decreaseQty = document.getElementById('decrease-qty');
+    const increaseQty = document.getElementById('increase-qty');
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    
+    // Current product data
+    let currentProduct = {};
+    
+    // Add event listeners to all cart buttons
+    document.querySelectorAll('.cart-button').forEach(button => {
+        button.addEventListener('click', function() {
+            // Get product data
+            currentProduct = {
+                id: this.dataset.id,
+                type: this.dataset.type,
+                name: this.dataset.name,
+                price: parseInt(this.dataset.price),
+                sizes: this.dataset.sizes ? this.dataset.sizes.split(',') : [],
+                colors: this.dataset.colors ? this.dataset.colors.split(',') : []
+            };
+            
+            // Update modal content
+            modalProductName.textContent = currentProduct.name;
+            productQty.value = 1;
+            
+            // Handle size and color selection for fashion products
+            if (currentProduct.type === 'fashion' && currentProduct.sizes.length > 0) {
+                sizeSelection.classList.remove('hidden');
+                productSize.innerHTML = '';
+                currentProduct.sizes.forEach(size => {
+                    const option = document.createElement('option');
+                    option.value = size;
+                    option.textContent = size;
+                    productSize.appendChild(option);
+                });
+            } else {
+                sizeSelection.classList.add('hidden');
+            }
+            
+            if (currentProduct.type === 'fashion' && currentProduct.colors.length > 0) {
+                colorSelection.classList.remove('hidden');
+                productColor.innerHTML = '';
+                currentProduct.colors.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    productColor.appendChild(option);
+                });
+            } else {
+                colorSelection.classList.add('hidden');
+            }
+            
+            // Show modal
+            modal.classList.remove('hidden');
+        });
+    });
+    
+    // Close modal
+    closeModal.addEventListener('click', function() {
+        modal.classList.add('hidden');
+    });
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+    
+    // Quantity buttons
+    decreaseQty.addEventListener('click', function() {
+        if (parseInt(productQty.value) > 1) {
+            productQty.value = parseInt(productQty.value) - 1;
+        }
+    });
+    
+    increaseQty.addEventListener('click', function() {
+        if (parseInt(productQty.value) < 10) {
+            productQty.value = parseInt(productQty.value) + 1;
+        }
+    });
+    
+    // Add to cart
+    addToCartBtn.addEventListener('click', function() {
+        const data = {
+            product_id: currentProduct.id,
+            product_type: currentProduct.type,
+            quantity: parseInt(productQty.value),
+            color: currentProduct.type === 'fashion' ? productColor.value : null,
+            size: currentProduct.type === 'fashion' ? productSize.value : null
+        };
+        
+        // API call to add item to cart
+        fetch('/add-to-cart/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close modal
+                modal.classList.add('hidden');
+                
+                // Show success notification
+                showNotification(data.message);
+                
+                // For anonymous users, save product to localStorage
+                if (!data.cart_total && data.product) {
+                    saveToLocalStorage(data.product, parseInt(productQty.value));
+                }
+                
+                // Update cart count in navbar if element exists
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement && data.cart_total) {
+                    cartCountElement.textContent = data.cart_total;
+                    cartCountElement.style.display = 'inline-block';
+                }
+            } else {
+                showNotification(data.error || 'Failed to add item to cart');
+            }
+        })
+        .catch(error => {
+            console.error('Error adding to cart:', error);
+            showNotification('Error adding to cart');
+        });
+    });
+    
+    // Show notification message
+    function showNotification(message) {
+        const notification = document.getElementById('cart-notification');
+        const messageElement = document.getElementById('notification-message');
+        
+        messageElement.textContent = message;
+        
+        // Show notification
+        notification.classList.remove('translate-x-full');
+        
+        // Hide after 3 seconds
+        setTimeout(() => {
+            notification.classList.add('translate-x-full');
+        }, 3000);
+    }
+    
+    // Save to localStorage for anonymous users
+    function saveToLocalStorage(product, quantity) {
+        // Get existing cart or initialize new one
+        let cart = JSON.parse(localStorage.getItem('cartData')) || {
+            items: [],
+            subtotal: 0,
+            tax: 0,
+            discount: 0,
+            total: 0
+        };
+        
+        // Check if product already exists in cart
+        const existingItemIndex = cart.items.findIndex(item => 
+            item.id == product.id && 
+            item.type === product.type &&
+            item.color === product.color &&
+            item.size === product.size
+        );
+        
+        if (existingItemIndex !== -1) {
+            // Update quantity if exists
+            cart.items[existingItemIndex].quantity += quantity;
+        } else {
+            // Add new item
+            cart.items.push({
+                id: product.id,
+                type: product.type,
+                name: product.name,
+                price: product.price,
+                quantity: quantity,
+                color: product.color,
+                size: product.size
+            });
+        }
+        
+        // Recalculate totals
+        cart.subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cart.tax = Math.round(cart.subtotal * 0.1); // 10% tax
+        cart.total = cart.subtotal + cart.tax - cart.discount;
+        
+        // Save to localStorage
+        localStorage.setItem('cartData', JSON.stringify(cart));
+        
+        // Update cart count in navbar if element exists
+        const cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount;
+            cartCountElement.style.display = cartCount > 0 ? 'inline-block' : 'none';
+        }
+    }
+</script>
 {% endblock %}
