@@ -174,19 +174,6 @@ class OrderItem(models.Model):
     size = models.CharField(max_length=10, null=True, blank=True)
     
     @property
-    def get_product(self):
-        try:
-            if self.product_type == 'fashion':
-                return Fashion.objects.get(product_id=self.product_id)
-            elif self.product_type == 'beauty':
-                return Beauty.objects.get(product_id=self.product_id)
-            elif self.product_type == 'accessories':
-                return Accessories.objects.get(product_id=self.product_id)
-        except (Fashion.DoesNotExist, Beauty.DoesNotExist, Accessories.DoesNotExist):
-            return None
-        return None
-    
-    @property
     def get_total(self):
         product = self.get_product
         return product.price * self.quantity if product else 0
@@ -207,27 +194,6 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return self.address
 
-# Wishlist Model (Optional)
-class Wishlist(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"Wishlist for {self.user.email}"
-
-# WishlistItem Model (Optional)
-class WishlistItem(models.Model):
-    PRODUCT_TYPE_CHOICES = (
-        ('fashion', 'Fashion'),
-        ('beauty', 'Beauty'),
-        ('accessories', 'Accessories'),
-    )
-    
-    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name='items')
-    product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE_CHOICES)
-    product_id = models.IntegerField()
-    date_added = models.DateTimeField(auto_now_add=True)
-    
     @property
     def get_product(self):
         try:

@@ -33,7 +33,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
             {% for product in beauty_products %}
             <div>
-                <img class="w-full h-48 object-cover rounded-lg" src="{{ product.image.url }}" alt="{{ product.name }}">
+                <img class="w-full h-48 object-cover rounded-lg" src="{{ product.productimage_set.first.image.url }}" alt="{{ product.name }}">
                 <h4 class="mt-2">{{ product.name }}</h4>
                 <div class="flex justify-between items-center">
                     <p class="text-pink-600">Rp{{ product.price }}</p>

@@ -22,7 +22,25 @@ def sign_up(request):
     return render(request, 'WebPage/sign_up.html')
 
 def favorites(request):
-    return render(request, 'WebPage/favorites.html')
+    # Fetch 5 latest fashion products
+    fashion_products = Fashion.objects.order_by('-product_id')[:4]
+
+    # Fetch 5 latest beauty products
+    beauty_products = Beauty.objects.order_by('-product_id')[:4]
+
+    # Fetch trending products (modify logic as needed)
+    trending_fashion = Fashion.objects.order_by('-product_id')[:2]
+    trending_beauty = Beauty.objects.order_by('-product_id')[:2]
+
+    # Manually combine products into a list
+    trending_products = list(trending_fashion) + list(trending_beauty)
+
+    context = {
+        'fashion_products': fashion_products,
+        'beauty_products': beauty_products,
+        'trending_products': trending_products,
+    }
+    return render(request, 'WebPage/favorites.html', context)
 
 def catalogue(request):
     category = request.GET.get('category', None)  # Get category from URL query
