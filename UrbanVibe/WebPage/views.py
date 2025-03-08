@@ -22,18 +22,36 @@ def sign_up(request):
     return render(request, 'WebPage/sign_up.html')
 
 def favorites(request):
-    # Fetch 5 latest fashion products
-    fashion_products = Fashion.objects.order_by('-product_id')[:4]
+    # Fetch 4 latest fashion products
+    fashion_products = Fashion.objects.order_by('-product_id')[:8]
 
-    # Fetch 5 latest beauty products
-    beauty_products = Beauty.objects.order_by('-product_id')[:4]
+    # Fetch 4 latest beauty products
+    beauty_products = Beauty.objects.order_by('-product_id')[:8]
 
     # Fetch trending products (modify logic as needed)
-    trending_fashion = Fashion.objects.order_by('-product_id')[:2]
-    trending_beauty = Beauty.objects.order_by('-product_id')[:2]
+    trending_fashion = Fashion.objects.order_by('-product_id')[:5]
+    trending_beauty = Beauty.objects.order_by('-product_id')[:3]
 
     # Manually combine products into a list
     trending_products = list(trending_fashion) + list(trending_beauty)
+
+    # Make sure all products have at least one image
+    # This is a safety check for demonstration purposes
+    for product in fashion_products:
+        if not product.images.exists():
+            # Create a placeholder image if needed for testing
+            ProductImage.objects.create(
+                fashion=product, 
+                image='product_images/placeholder.jpg'
+            )
+    
+    for product in beauty_products:
+        if not product.images.exists():
+            # Create a placeholder image if needed for testing
+            ProductImage.objects.create(
+                beauty=product, 
+                image='product_images/placeholder.jpg'
+            )
 
     context = {
         'fashion_products': fashion_products,
