@@ -176,10 +176,25 @@
     </div>
 </div>
 
-<!-- Add to Cart Success Notification -->
-<div id="cart-notification" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg transform transition-transform duration-300 translate-x-full">
-    <p id="notification-message"></p>
-</div>
+<!-- Hidden notification div (won't be visible) -->
+<div id="cart-notification" style="display: none !important;"></div>
+
+<style>
+    /* Ensure all notification elements are hidden */
+    #cart-notification,
+    #notification-container,
+    .notification,
+    .alert,
+    .alert-success {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        position: absolute !important;
+        pointer-events: none !important;
+    }
+</style>
 
 <script>
     // CSRF Token
@@ -300,9 +315,6 @@
                 // Close modal
                 modal.classList.add('hidden');
                 
-                // Show success notification
-                showNotification(data.message);
-                
                 // For anonymous users, save product to localStorage
                 if (!data.cart_total && data.product) {
                     saveToLocalStorage(data.product, parseInt(productQty.value));
@@ -314,30 +326,18 @@
                     cartCountElement.textContent = data.cart_total;
                     cartCountElement.style.display = 'inline-block';
                 }
-            } else {
-                showNotification(data.error || 'Failed to add item to cart');
             }
         })
         .catch(error => {
             console.error('Error adding to cart:', error);
-            showNotification('Error adding to cart');
         });
     });
     
-    // Show notification message
+    // Disabled showNotification function
     function showNotification(message) {
-        const notification = document.getElementById('cart-notification');
-        const messageElement = document.getElementById('notification-message');
-        
-        messageElement.textContent = message;
-        
-        // Show notification
-        notification.classList.remove('translate-x-full');
-        
-        // Hide after 3 seconds
-        setTimeout(() => {
-            notification.classList.add('translate-x-full');
-        }, 3000);
+        // Function intentionally left empty to disable notifications
+        console.log("Notification suppressed:", message);
+        return;
     }
     
     // Save to localStorage for anonymous users
@@ -391,5 +391,14 @@
             cartCountElement.style.display = cartCount > 0 ? 'inline-block' : 'none';
         }
     }
+    
+    // Remove any existing notifications on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Remove any notification elements that might already exist
+        const elements = document.querySelectorAll('#cart-notification, #notification-container, .notification, .alert, .alert-success');
+        elements.forEach(el => {
+            if (el) el.style.display = 'none';
+        });
+    });
 </script>
 {% endblock %}

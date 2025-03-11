@@ -168,9 +168,37 @@ def shoppingcart(request):
         # Get or create an incomplete order for the user
         order, created = Order.objects.get_or_create(user=request.user, complete=False)
         items = order.orderitem_set.all()
+        
+        try:
+            # Try to calculate cart totals with the property
+            subtotal = sum([item.get_total for item in items])
+        except AttributeError:
+            # If get_total is not available, calculate directly
+            subtotal = 0
+            for item in items:
+                product = None
+                try:
+                    if item.product_type == 'fashion':
+                        product = Fashion.objects.get(product_id=item.product_id)
+                    elif item.product_type == 'beauty':
+                        product = Beauty.objects.get(product_id=item.product_id)
+                    elif item.product_type == 'accessories':
+                        product = Accessories.objects.get(product_id=item.product_id)
+                    
+                    if product:
+                        subtotal += product.price * item.quantity
+                except (Fashion.DoesNotExist, Beauty.DoesNotExist, Accessories.DoesNotExist):
+                    pass
+        
+        tax = int(subtotal * 0.10)  # 10% tax
+        final_total = subtotal + tax - order.discount_amount
+        
         context = {
             'items': items,
             'order': order,
+            'subtotal': subtotal,
+            'tax': tax,
+            'final_total': final_total
         }
     else:
         # For anonymous users, we'll rely on the client-side cart in localStorage
@@ -181,7 +209,6 @@ def shoppingcart(request):
             'order': order,
         }
     return render(request, 'WebPage/shoppingcart.html', context)
-
 @require_POST
 def add_to_cart(request):
     """API endpoint to add items to cart."""

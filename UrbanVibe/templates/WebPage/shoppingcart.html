@@ -48,6 +48,7 @@
                             <p class="text-pink-600 font-semibold">Rp. {{ item.get_product.price|floatformat:"0"|intcomma }}</p>
                             <div class="mt-2 flex items-center">
                                 <button onclick="ShoppingCart.updateItemQuantity('{{ item.id }}', 'decrease')" class="px-3 py-1 bg-gray-300 rounded">-</button>
+                                <span class="px-4">{{ item.quantity }}</span>
                                 <button onclick="ShoppingCart.updateItemQuantity('{{ item.id }}', 'increase')" class="px-3 py-1 bg-gray-300 rounded">+</button>
                                 <button onclick="ShoppingCart.updateItemQuantity('{{ item.id }}', 'remove')" class="px-3 py-1 bg-red-500 text-white rounded ml-3">
                                 <i class="fas fa-trash"></i>
@@ -59,22 +60,7 @@
                 {% else %}
                     <!-- Client-side cart items will be rendered here for non-authenticated users -->
                     <div id="client-items">
-                        <!-- Example item template, will be populated by JavaScript -->
-                        <div class="flex items-center border rounded-lg p-4 shadow">
-                            <img src="https://i.pinimg.com/736x/be/0e/95/be0e95ca27bdf6de0c06406b8fc13d48.jpg" alt="White Solid Formal Shirt"
-                                class="w-24 h-24 object-cover rounded-md">
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold">White Solid Formal Shirt</h3>
-                                <p>Colour: BLUE</p>
-                                <p>Size: Unisex XS</p>
-                                <p class="text-pink-600 font-semibold">Rp. 100.000</p>
-                                <div class="mt-2 flex items-center">
-                                    <button onclick="decreaseQuantity('qty1')" class="px-3 py-1 bg-gray-300 rounded">-</button>
-                                    <span id="qty1" class="px-4">3</span>
-                                    <button onclick="increaseQuantity('qty1')" class="px-3 py-1 bg-gray-300 rounded">+</button>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Items will be populated by JavaScript via ShoppingCart.js -->
                     </div>
                 {% endif %}
                 
@@ -131,159 +117,13 @@
     <!-- Load our cart.js file -->
     <script src="{% static 'assets/js/cart.js' %}"></script>
     
-    <!-- This script bridges between old and new cart implementations -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize ShoppingCart from cart.js
             if (typeof ShoppingCart !== 'undefined') {
                 ShoppingCart.init();
-            } else {
-                // Fallback to old cart implementation if ShoppingCart is not available
-                initializeLegacyCart();
             }
         });
-        
-        // Legacy cart initialization for backward compatibility
-        function initializeLegacyCart() {
-            let cart = {
-                items: [
-                    {
-                        id: 1,
-                        name: "White Solid Formal Shirt",
-                        color: "BLUE",
-                        size: "Unisex XS",
-                        price: 100000,
-                        quantity: 3
-                    },
-                    {
-                        id: 2,
-                        name: "White Solid Formal Shirt",
-                        color: "BLUE",
-                        size: "Unisex XS",
-                        price: 100000,
-                        quantity: 3
-                    }
-                ],
-                subtotal: 0,
-                tax: 60000,
-                discount: 0,
-                total: 0
-            };
-
-            // Load from localStorage
-            const savedCart = localStorage.getItem('cartData');
-            if (savedCart) {
-                try {
-                    const parsedCart = JSON.parse(savedCart);
-                    if (parsedCart && parsedCart.items) {
-                        cart = parsedCart;
-                    }
-                } catch (e) {
-                    console.error("Error parsing cart data:", e);
-                }
-            }
-
-            // Apply saved voucher
-            const savedVoucher = localStorage.getItem('voucherCode');
-            if (savedVoucher && document.getElementById('voucherCode')) {
-                document.getElementById('voucherCode').value = savedVoucher;
-                
-                if (savedVoucher === "ibusesar") {
-                    cart.discount = 50000;
-                } else if (savedVoucher === "URBAN25") {
-                    cart.discount = Math.round(cart.subtotal * 0.25);
-                }
-            }
-            
-            // Initialize UI
-            cart.items.forEach(item => {
-                const qtyElement = document.getElementById(`qty${item.id}`);
-                if (qtyElement) {
-                    qtyElement.textContent = item.quantity;
-                }
-            });
-
-            updateCart();
-            
-            // Legacy functions
-            window.increaseQuantity = function(id) {
-                let quantity = document.getElementById(id);
-                let itemId = parseInt(id.replace('qty', ''));
-                let item = cart.items.find(i => i.id === itemId);
-                
-                if (item) {
-                    item.quantity = parseInt(quantity.textContent) + 1;
-                    quantity.textContent = item.quantity;
-                    updateCart();
-                }
-            };
-            
-            window.decreaseQuantity = function(id) {
-                let quantity = document.getElementById(id);
-                let currentValue = parseInt(quantity.textContent);
-                let itemId = parseInt(id.replace('qty', ''));
-                let item = cart.items.find(i => i.id === itemId);
-                
-                if (currentValue > 1 && item) {
-                    item.quantity = currentValue - 1;
-                    quantity.textContent = item.quantity;
-                    updateCart();
-                }
-            };
-            
-            window.applyVoucher = function() {
-                let inputVoucher = document.getElementById("voucherCode").value.trim();
-                let discountMessage = "";
-                
-                cart.discount = 0;
-                
-                if (inputVoucher === "ibusesar") {
-                    cart.discount = 50000;
-                    discountMessage = "Voucher applied successfully! Discount: Rp. 50.000";
-                    localStorage.setItem('voucherCode', inputVoucher);
-                } else if (inputVoucher === "URBAN25") {
-                    cart.discount = Math.round(cart.subtotal * 0.25); 
-                    discountMessage = `Voucher applied successfully! Discount: Rp. ${cart.discount.toLocaleString()}`;
-                    localStorage.setItem('voucherCode', inputVoucher);
-                } else {
-                    discountMessage = "Invalid voucher code. Please try again.";
-                    localStorage.removeItem('voucherCode');
-                }
-                
-                alert(discountMessage);
-                updateCart();
-            };
-            
-            function updateCart() {
-                // Calculate subtotal
-                cart.subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                
-                // Calculate total with tax and discount
-                cart.total = cart.subtotal + cart.tax - cart.discount;
-                
-                // Update UI
-                document.getElementById('subtotal').textContent = `Rp. ${cart.subtotal.toLocaleString()}`;
-                document.getElementById('discount').textContent = `Rp. ${cart.discount.toLocaleString()}`;
-                document.getElementById('total').textContent = `Rp. ${cart.total.toLocaleString()}`;
-                
-                // Save to localStorage
-                localStorage.setItem('cartData', JSON.stringify(cart));
-            }
-            
-            // Handle voucher button for legacy cart
-            const applyButton = document.getElementById('apply-voucher');
-            if (applyButton) {
-                applyButton.addEventListener('click', applyVoucher);
-            }
-            
-            // Handle checkout button for legacy cart
-            const checkoutButton = document.getElementById('checkout-button');
-            if (checkoutButton) {
-                checkoutButton.addEventListener('click', function() {
-                    window.location.href = "{% url 'invoice' %}";
-                });
-            }
-        }
     </script>
 
 <div class="flex items-center justify-center my-5 relative">

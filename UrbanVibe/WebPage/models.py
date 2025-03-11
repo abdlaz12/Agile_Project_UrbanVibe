@@ -174,12 +174,26 @@ class OrderItem(models.Model):
     size = models.CharField(max_length=10, null=True, blank=True)
     
     @property
+    def get_product(self):
+        try:
+            if self.product_type == 'fashion':
+                return Fashion.objects.get(product_id=self.product_id)
+            elif self.product_type == 'beauty':
+                return Beauty.objects.get(product_id=self.product_id)
+            elif self.product_type == 'accessories':
+                return Accessories.objects.get(product_id=self.product_id)
+        except (Fashion.DoesNotExist, Beauty.DoesNotExist, Accessories.DoesNotExist):
+            return None
+        return None
+    
+    @property
     def get_total(self):
         product = self.get_product
         return product.price * self.quantity if product else 0
     
     def __str__(self):
-        return f"{self.quantity} x {self.get_product.name if self.get_product else 'Unknown Product'}"
+        product = self.get_product
+        return f"{self.quantity} x {product.name if product else 'Unknown Product'}"
 
 # Shipping Address Model
 class ShippingAddress(models.Model):
