@@ -23,6 +23,7 @@ urlpatterns = [
     path('apply-voucher/', views.apply_voucher, name='apply_voucher'),
     path('checkout/', views.checkout, name='checkout'),
     path('process-payment/', views.process_payment, name='process_payment'),
+    path("send-email/", views.send_subscription_email, name="send_email"),
 ]
 
 if settings.DEBUG:

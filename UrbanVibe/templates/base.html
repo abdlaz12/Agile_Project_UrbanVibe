@@ -18,6 +18,7 @@
                 UrbanVibe
             </a>
             <nav class="space-x-6">
+                <a class="text-pink-600 hover:text-pink-800" href="{% url 'index' %}">Home</a>
                 <a class="text-pink-600 hover:text-pink-800" href="{% url 'catalogue' %}">Catalogue</a>
                 <a class="text-pink-600 hover:text-pink-800" href="{% url 'favorites' %}">Favorites</a>
                 <a class="text-pink-600 hover:text-pink-800" href="{% url 'about_us' %}">About</a>
@@ -64,28 +65,30 @@
             <div class="footer-section">
                 <h3>SHOP</h3>
                 <ul>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Overview</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Releases</a></li>
+                    <li><a href="{% url 'catalogue' %}">Products</a></li>
+                    <li><a href="{% url 'favorites' %}">Favorites</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>COMPANY</h3>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Support</a></li>
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h3 class="text-lg font-bold">STAY UP TO DATE</h3>
-                <form class="flex flex-col sm:flex-row gap-4 mt-4">
-                    <input type="email" placeholder="Enter your email" required class="w-full sm:w-80 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    <button type="submit" class="bg-pink-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-pink-600 transition w-full sm:w-auto">SUBMIT</button>
-                </form>
-            </div>
+                <div class="footer-section">
+                    <h3 class="text-lg font-bold">STAY UP TO DATE</h3>
+                    <form class="flex flex-wrap items-center gap-4 mt-4 border-none outline-none shadow-none">
+                        <input type="email" placeholder="Enter your email" required 
+                            class="w-full sm:w-80 px-4 py-3 border-none outline-none shadow-none rounded-lg focus:ring-2 focus:ring-pink-500">
+                        <button type="submit" 
+                            class="bg-pink-600 text-white px-6 py-3 rounded-lg shadow-lg transition w-auto border-none outline-none 
+                                hover:bg-pink-600 hover:text-white">
+                            SUBMIT
+                        </button>
+                        
+                    </form>
+                </div>            
+            
         </div>
         <div class="footer-bottom">
             <span class="line"></span>
@@ -94,3 +97,28 @@
     </footer>
 </body>
 </html>
+<script>
+document.querySelector("form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    let emailInput = document.querySelector("input[type='email']");
+    let email = emailInput.value;
+
+    let response = await fetch("/send-email/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+    });
+
+    let result = await response.json();
+    if (response.ok) {
+        alert("Email sent successfully!");
+        emailInput.value = ""; // Reset input setelah sukses
+    } else {
+        alert("Failed to send email: " + result.error);
+    }
+});
+</script>
+

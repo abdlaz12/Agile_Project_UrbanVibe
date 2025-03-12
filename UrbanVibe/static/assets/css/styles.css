@@ -124,14 +124,16 @@ footer {
 
 .footer-section form {
     display: flex;
-    border: 1px solid white;
+    border: none; /* Hapus border putih */
     border-radius: 5px;
     overflow: hidden;
     max-width: 250px;
 }
 
+
 .footer-section input {
     flex: 1;
+    color: #E91E63;
     padding: 10px;
     border: none;
     outline: none;
@@ -140,7 +142,7 @@ footer {
 
 .footer-section button {
     background-color: white;
-    color: #DD7373;
+    color: #E91E63;
     border: none;
     padding: 10px;
     font-size: 14px;
@@ -149,9 +151,6 @@ footer {
     transition: background-color 0.3s ease;
 }
 
-.footer-section button:hover {
-    background-color: #FEC8D8;
-}
 
 .footer-bottom {
     display: flex;

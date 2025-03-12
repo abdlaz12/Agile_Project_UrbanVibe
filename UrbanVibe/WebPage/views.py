@@ -535,3 +535,40 @@ def wishlist(request):
     except Exception as e:
         messages.error(request, f'Error retrieving wishlist: {str(e)}')
         return redirect('index')
+    
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+def send_subscription_email(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+
+        if email:
+            subject = "Terima Kasih Telah Berlangganan!"
+            message = (
+                "Halo!\n\n"
+                "Terima kasih telah bergabung dengan komunitas kami! Kami sangat senang menyambut Anda sebagai pelanggan baru. "
+                "Dengan berlangganan, Anda akan mendapatkan berbagai manfaat eksklusif, termasuk:\n\n"
+                "- **Konten Eksklusif**: Akses ke artikel, panduan, dan tips terbaru yang hanya tersedia bagi pelanggan kami.\n"
+                "- **Penawaran Khusus**: Diskon dan promosi eksklusif yang dirancang khusus untuk Anda.\n"
+                "- **Pembaruan Terbaru**: Informasi terkini tentang produk dan layanan kami, sehingga Anda selalu selangkah lebih maju.\n\n"
+                "Kami berkomitmen untuk memberikan Anda pengalaman terbaik dan berharap Anda menikmati semua manfaat yang kami tawarkan. "
+                "Jika Anda memiliki pertanyaan atau masukan, jangan ragu untuk menghubungi kami.\n\n"
+                "Sekali lagi, terima kasih telah berlangganan. Selamat menikmati konten dan penawaran eksklusif dari kami!\n\n"
+                "Salam hangat,\n"
+                "Tim Kami"
+            )
+            sender_email = "hary04953@gmail.com"
+            recipient_list = [email]
+
+
+            send_mail(subject, message, sender_email, recipient_list)
+            return JsonResponse({"message": "Email sent successfully!"}, status=200)
+
+        return JsonResponse({"error": "Invalid email"}, status=400)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
