@@ -76,21 +76,28 @@ From chic dresses and comfortable hijabs to everyday essentials, UrbanView is he
         <h2 class="text-3xl font-bold text-pink-600 mb-6">Designer Clothes For You</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <img src="{% static 'assets/image/home/Kategori_1.png' %}" alt="Accessories" class="w-full rounded-lg">
-                <h3 class="text-lg font-semibold mt-4">Accessories</h3>
+                <a href="{% url 'catalogue' %}">
+                    <img src="{% static 'assets/image/home/Kategori_1.png' %}" alt="Accessories" class="w-full rounded-lg">
+                </a>
+                <h3 class="text-lg font-semibold mt-4"><a href="{% url 'catalogue' %}">Accessories</a></h3>
                 <p class="text-gray-600">Complete your ensembles with designer accessories, from handbags, scarves, belts, and more.</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <img src="{% static 'assets/image/home/Kategori_2.png' %}" alt="Dresses" class="w-full rounded-lg">
-                <h3 class="text-lg font-semibold mt-4">Dresses</h3>
+                <a href="{% url 'catalogue' %}">
+                    <img src="{% static 'assets/image/home/Kategori_2.png' %}" alt="Dresses" class="w-full rounded-lg">
+                </a>
+                <h3 class="text-lg font-semibold mt-4"><a href="{% url 'catalogue' %}">Dresses</a></h3>
                 <p class="text-gray-600">Explore a stunning range of designer dresses, including evening gowns and chic day dresses.</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <img src="{% static 'assets/image/home/Kategori_3.png' %}" alt="Outerwear" class="w-full rounded-lg">
-                <h3 class="text-lg font-semibold mt-4">Beauty</h3>
-                <p class="text-gray-600">Discover the best makeup collection for a perfect look every day! From foundation and lipstick to eyeshadow</p>
+                <a href="{% url 'catalogue' %}">
+                    <img src="{% static 'assets/image/home/Kategori_3.png' %}" alt="Outerwear" class="w-full rounded-lg">
+                </a>
+                <h3 class="text-lg font-semibold mt-4"><a href="{% url 'catalogue' %}">Beauty</a></h3>
+                <p class="text-gray-600">Discover the best makeup collection for a perfect look every day! From foundation and lipstick to eyeshadow.</p>
             </div>
         </div>
+        
     </section>
 </main>
 
