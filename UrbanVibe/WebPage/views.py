@@ -104,9 +104,22 @@ def accessories_detail(request, pk):
     accessories = get_object_or_404(Accessories, pk=pk)
     return render(request, 'WebPage/accessories_detail.html', {'accessories': accessories})
 
-def product_detail(request, id):
-    product = get_object_or_404(Product, id=id) 
-    return render(request, 'product_detail.html', {'product': product})
+def product_detail(request, category, pk):
+    model_mapping = {
+        "fashion": Fashion,
+        "beauty": Beauty,
+        "accessories": Accessories,
+    }
+
+    model = model_mapping.get(category)
+    if not model:
+        return render(request, "WebPage/404.html", status=404)  # Handle invalid categories
+
+    product = get_object_or_404(model, pk=pk)
+    return render(request, "WebPage/product_detail.html", {
+        "product": product,
+        "category": category,  # Pass category explicitly
+    })
 
 def register_customer(request):
     if request.method == 'POST':
@@ -467,78 +480,6 @@ def process_payment(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
-# Add wishlists functionality (optional)
-@login_required
-def add_to_wishlist(request):
-    """API endpoint to add an item to the user's wishlist."""
-    try:
-        data = json.loads(request.body)
-        product_id = data.get('product_id')
-        product_type = data.get('product_type')
-        
-        # Get or create the user's wishlist
-        wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-        
-        # Check if the item is already in the wishlist
-        existing_item = WishlistItem.objects.filter(
-            wishlist=wishlist,
-            product_type=product_type,
-            product_id=product_id
-        ).exists()
-        
-        if existing_item:
-            return JsonResponse({
-                'success': False,
-                'message': 'Item already in wishlist'
-            })
-        
-        # Add the item to the wishlist
-        wishlist_item = WishlistItem.objects.create(
-            wishlist=wishlist,
-            product_type=product_type,
-            product_id=product_id
-        )
-        
-        return JsonResponse({
-            'success': True,
-            'message': 'Item added to wishlist'
-        })
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
-
-@login_required
-def remove_from_wishlist(request, item_id):
-    """Remove an item from the user's wishlist."""
-    try:
-        wishlist_item = get_object_or_404(WishlistItem, id=item_id, wishlist__user=request.user)
-        wishlist_item.delete()
-        
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': True})
-        
-        messages.success(request, 'Item removed from wishlist')
-        return redirect('wishlist')
-    except Exception as e:
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'error': str(e)}, status=400)
-        
-        messages.error(request, f'Error removing item: {str(e)}')
-        return redirect('wishlist')
-
-@login_required
-def wishlist(request):
-    """View the user's wishlist."""
-    try:
-        wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-        wishlist_items = wishlist.items.all().order_by('-date_added')
-        
-        context = {
-            'wishlist_items': wishlist_items
-        }
-        return render(request, 'WebPage/wishlist.html', context)
-    except Exception as e:
-        messages.error(request, f'Error retrieving wishlist: {str(e)}')
-        return redirect('index')
     
 from django.core.mail import send_mail
 from django.http import JsonResponse
