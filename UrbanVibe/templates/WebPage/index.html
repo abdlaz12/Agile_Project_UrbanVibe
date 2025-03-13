@@ -1,108 +1,161 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+  integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+  crossorigin="anonymous"
+></script>
 <main class="container mx-auto p-6">
-
-    <!-- Hero Section -->
-    <section>
-        <div class="relative w-full min-h-screen bg-cover bg-center flex items-center px-6 md:px-16" 
-        style="background-image: url('{% static 'assets/image/hero.png' %}');">
-        
-            <!-- Konten Teks & Tombol -->
-            <div class="relative max-w-lg text-center md:text-left">
-                <h1 class="text-4xl md:text-5xl font-bold text-pink-600 leading-tight">
-                    Discover and <br> Find Your Own Fashion!
-                </h1>
-                <p class="text-gray-600 mt-4">
-                    Explore our curated collection of stylish clothing and accessories tailored to your unique taste.
-                </p>
-                <a href="#" class="mt-6 inline-block bg-pink-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-pink-700 transition">
-                    EXPLORE NOW
-                </a>
-            </div>
-        </div>
-    </section>
-
-    
-    <section class="relative grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 px-6 md:px-16 pb-12">
-        <!-- Gambar 1 -->
-        <img src="{% static 'assets/image/home/Hero_1.png' %}" 
-             alt="Icon 1" 
-             class="w-full h-auto max-w-[300px] mx-auto rounded-lg">
-        
-        <!-- Gambar 2 -->
-        <img src="{% static 'assets/image/home/Hero_2.png' %}" 
-             alt="Icon 2" 
-             class="w-full h-auto max-w-[300px] mx-auto rounded-lg">
-        
-        <!-- Gambar 3 -->
-        <img src="{% static 'assets/image/home/Hero_3.png' %}" 
-             alt="Icon 3" 
-             class="w-full h-auto max-w-[300px] mx-auto rounded-lg">
-    </section>
-    
-        <!-- Wrapper untuk UrbanVibe + Garis -->
-    <section class="relative flex flex-col items-center justify-center py-6 w-full">
-
-        <!-- Garis Atas (Tersambung ke Ujung) -->
-        <div class="w-full h-2 bg-pink-200 rounded-b-lg overflow-hidden" style="clip-path: inset(0px 0px 2px 0px);"></div>
-
-        <!-- Tulisan UrbanVibe -->
-        <a class="text-6xl font-bold text-pink-600 text-center" href='{% url "index" %}'>
-            UrbanVibe
-        </a>
-
-        <!-- Garis Bawah (Tersambung ke Ujung) -->
-        <div class="w-full h-2 bg-pink-200 rounded-t-lg overflow-hidden" style="clip-path: inset(2px 0px 0px 0px);"></div>
-
-    </section>
-    
-        
-
-    <!-- About Section -->
-    <section class="text-center mb-12 mt-12">
-        <h2 class="text-3xl font-bold text-pink-600">Hello Hijab Woman</h2>
-        <p class="text-gray-600 mt-4 max-w-3xl mx-auto">
-            Discover UrbanView, your ultimate destination for stylish and elegant fashion, specially curated for women and modern Muslimah. We offer a stunning collection of trendy, modest, and high-quality outfits that empower you to express your confidence and beauty effortlessly.
-From chic dresses and comfortable hijabs to everyday essentials, UrbanView is here to redefine your wardrobe with grace and sophistication. Shop now and embrace your elegance with UrbanView!
+  <!-- Hero Section -->
+  <section>
+    <div
+      class="relative w-full min-h-screen bg-cover bg-center flex items-center px-6 md:px-16"
+      style="background-image: url('{% static 'assets/image/hero.png' %}')"
+    >
+      <!-- Konten Teks & Tombol -->
+      <div class="relative max-w-lg text-center md:text-left">
+        <h1 class="text-4xl md:text-5xl font-bold text-rose-400 leading-tight">
+          Discover and <br />
+          Find Your Own Fashion!
+        </h1>
+        <p class="text-gray-600 mt-4">
+          Explore our curated collection of stylish clothing and accessories
+          tailored to your unique taste.
         </p>
-    </section>
+        <a
+          href="{% url 'catalogue' %}"
+          class="mt-6 inline-block bg-pink-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-pink-700 transition"
+        >
+          EXPLORE NOW
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <!-- Product Categories -->
-    <section class="text-center">
-        <h2 class="text-3xl font-bold text-pink-600 mb-6">Designer Clothes For You</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <a href="{% url 'catalogue' %}">
-                    <img src="{% static 'assets/image/home/Kategori_1.png' %}" alt="Accessories" class="w-full rounded-lg">
-                </a>
-                <h3 class="text-lg font-semibold mt-4"><a href="{% url 'catalogue' %}">Accessories</a></h3>
-                <p class="text-gray-600">Complete your ensembles with designer accessories, from handbags, scarves, belts, and more.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <a href="{% url 'catalogue' %}">
-                    <img src="{% static 'assets/image/home/Kategori_2.png' %}" alt="Dresses" class="w-full rounded-lg">
-                </a>
-                <h3 class="text-lg font-semibold mt-4"><a href="{% url 'catalogue' %}">Dresses</a></h3>
-                <p class="text-gray-600">Explore a stunning range of designer dresses, including evening gowns and chic day dresses.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <a href="{% url 'catalogue' %}">
-                    <img src="{% static 'assets/image/home/Kategori_3.png' %}" alt="Outerwear" class="w-full rounded-lg">
-                </a>
-                <h3 class="text-lg font-semibold mt-4"><a href="{% url 'catalogue' %}">Beauty</a></h3>
-                <p class="text-gray-600">Discover the best makeup collection for a perfect look every day! From foundation and lipstick to eyeshadow.</p>
-            </div>
-        </div>
-        
-    </section>
+  <section
+    class="relative grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 px-6 md:px-16 pb-12"
+  >
+    <!-- Gambar 1 -->
+    <img
+      src="{% static 'assets/image/home/Hero_1.png' %}"
+      alt="Icon 1"
+      class="w-full h-auto max-w-[300px] mx-auto rounded-lg"
+    />
+
+    <!-- Gambar 2 -->
+    <img
+      src="{% static 'assets/image/home/Hero_2.png' %}"
+      alt="Icon 2"
+      class="w-full h-auto max-w-[300px] mx-auto rounded-lg"
+    />
+
+    <!-- Gambar 3 -->
+    <img
+      src="{% static 'assets/image/home/Hero_3.png' %}"
+      alt="Icon 3"
+      class="w-full h-auto max-w-[300px] mx-auto rounded-lg"
+    />
+  </section>
+
+  <!-- Wrapper untuk UrbanVibe + Garis -->
+  <section
+    class="relative flex flex-col items-center justify-center py-6 w-full"
+  >
+    <!-- Garis Atas (Tersambung ke Ujung) -->
+    <div
+      class="w-full h-2 bg-pink-200 rounded-b-lg overflow-hidden"
+      style="clip-path: inset(0px 0px 2px 0px)"
+    ></div>
+
+    <!-- Tulisan UrbanVibe -->
+    <a
+      class="text-6xl font-bold text-pink-600 text-center"
+      href='{% url "index" %}'
+    >
+      UrbanVibe
+    </a>
+
+    <!-- Garis Bawah (Tersambung ke Ujung) -->
+    <div
+      class="w-full h-2 bg-pink-200 rounded-t-lg overflow-hidden"
+      style="clip-path: inset(2px 0px 0px 0px)"
+    ></div>
+  </section>
+
+  <!-- About Section -->
+  <section class="text-center mb-12 mt-12">
+    <h2 class="text-3xl font-bold text-rose-400">Hello Hijab Woman</h2>
+    <p class="text-gray-600 mt-4 max-w-3xl mx-auto">
+      Discover UrbanView, your ultimate destination for stylish and elegant
+      fashion, specially curated for women and modern Muslimah. We offer a
+      stunning collection of trendy, modest, and high-quality outfits that
+      empower you to express your confidence and beauty effortlessly. From chic
+      dresses and comfortable hijabs to everyday essentials, UrbanView is here
+      to redefine your wardrobe with grace and sophistication. Shop now and
+      embrace your elegance with UrbanView!
+    </p>
+  </section>
+
+  <!-- Product Categories -->
+  <section class="text-center">
+    <h2 class="text-3xl font-bold text-rose-400 mb-6">
+      Designer Clothes For You
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <a href="{% url 'catalogue' %}">
+          <img
+            src="{% static 'assets/image/home/Kategori_1.png' %}"
+            alt="Accessories"
+            class="w-full rounded-lg"
+          />
+        </a>
+        <h3 class="text-lg font-semibold mt-4">
+          <a href="{% url 'catalogue' %}">Accessories</a>
+        </h3>
+        <p class="text-gray-600">
+          Complete your ensembles with designer accessories, from handbags,
+          scarves, belts, and more.
+        </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <a href="{% url 'catalogue' %}">
+          <img
+            src="{% static 'assets/image/home/Kategori_2.png' %}"
+            alt="Dresses"
+            class="w-full rounded-lg"
+          />
+        </a>
+        <h3 class="text-lg font-semibold mt-4">
+          <a href="{% url 'catalogue' %}">Dresses</a>
+        </h3>
+        <p class="text-gray-600">
+          Explore a stunning range of designer dresses, including evening gowns
+          and chic day dresses.
+        </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <a href="{% url 'catalogue' %}">
+          <img
+            src="{% static 'assets/image/home/Kategori_3.png' %}"
+            alt="Outerwear"
+            class="w-full rounded-lg"
+          />
+        </a>
+        <h3 class="text-lg font-semibold mt-4">
+          <a href="{% url 'catalogue' %}">Beauty</a>
+        </h3>
+        <p class="text-gray-600">
+          Discover the best makeup collection for a perfect look every day! From
+          foundation and lipstick to eyeshadow.
+        </p>
+      </div>
+    </div>
+  </section>
 </main>
 
-
-
 {% endblock %}
-
-

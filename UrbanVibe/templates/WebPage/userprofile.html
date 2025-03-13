@@ -1,91 +1,123 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div
+  class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl mt-10 border border-gray-200 font-poppins"
+>
+  <h1
+    class="text-3xl font-bold mb-8 text-rose-400 border-b pb-4 uppercase tracking-wide"
+  >
+    MY PROFILE
+  </h1>
 
-{% block content %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Saya</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body class="bg-gray-100">
-    <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl mt-10 border border-gray-200">
-        <h1 class="text-3xl font-bold mb-8 text-pink-600 border-b pb-4 uppercase tracking-wide" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);">
-            MY PROFILE
-          </h1>  
+  <!-- Flex container for responsive layout -->
+  <div class="flex flex-col md:flex-row gap-12">
+    <!-- Right Section: Profile Picture -->
+    <div class="flex flex-col items-center md:order-2 md:w-1/3 md:pt-12">
+      <div
+        class="group relative cursor-pointer transition-transform hover:scale-105 duration-300"
+      >
+        <a
+          href="{% url 'profile' %}"
+          class="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-pink-400 to-pink-700 flex items-center justify-center text-white font-bold text-8xl shadow-lg hover:shadow-2xl transition-all duration-300"
+        >
+          {{ user.full_name|slice:"1" }}
+        </a>
+        <div
+          class="absolute inset-0 rounded-full bg-black bg-opacity-0 flex items-center justify-center group-hover:bg-opacity-20 transition duration-300"
+        ></div>
+      </div>
 
-        <!-- Kontainer Flex untuk layout responsif -->
-        <div class="flex flex-col md:flex-row gap-12">
-            <!-- Bagian Kanan: Foto Profil (perubahan urutan untuk mobile-first) -->
-            <div class="flex flex-col items-center md:order-2 md:w-1/3 md:pt-12">
-                <div class="group relative cursor-pointer transition-transform hover:scale-105 duration-300">
-                    <a href="{% url 'profile' %}" 
-                    class="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-pink-400 to-pink-700 flex items-center justify-center text-white font-bold text-8xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                        {{ user.full_name|slice:"1" }}
-                    </a>
-                    <div class="absolute inset-0 rounded-full bg-black bg-opacity-0 flex items-center justify-center group-hover:bg-opacity-20 transition duration-300"></div>
-                </div>
-                
-                <!-- Tombol Logout dengan efek hover -->
-                <a href="{% url 'logout' %}" 
-                class="mt-8 px-8 py-3 bg-pink-600 text-white font-medium rounded-lg 
-                        hover:bg-white hover:text-pink-600 border border-pink-600 transition-all duration-300 flex items-center gap-2 shadow-md">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
-            </div>
-
-            <!-- Bagian Kiri: Form Input -->
-            <div class="md:w-2/3 space-y-6 md:order-1">
-                <!-- Nama -->
-                <div class="group transform transition-all duration-300 hover:translate-x-1">
-                    <label class="font-medium text-gray-700 block mb-2">Name</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <input type="text" value="{{ user.full_name }}" class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm" readonly>
-                    </div>
-                </div>
-
-                <!-- Email -->
-                <div class="group transform transition-all duration-300 hover:translate-x-1">
-                    <label class="font-medium text-gray-700 block mb-2">Email</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <input type="text" value="{{ user.email }}" class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm" readonly>
-                    </div>
-                </div>
-
-                <!-- Nomor Telepon -->
-                <div class="group transform transition-all duration-300 hover:translate-x-1">
-                    <label class="font-medium text-gray-700 block mb-2">Phone Number</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500">
-                            <i class="fas fa-phone"></i>
-                        </span>
-                        <input type="text" value="{{ user.phone_number|default:'-' }}" class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm" readonly>
-                    </div>
-                </div>
-
-                <!-- Alamat User -->
-                <div class="group transform transition-all duration-300 hover:translate-x-1">
-                    <label class="font-medium text-gray-700 block mb-2">Address</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500">
-                            <i class="fas fa-home"></i>
-                        </span>
-                        <input type="text" value="{{ user.address|default:'-' }}" class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm" readonly>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!-- Logout Button -->
+      <a
+        href="{% url 'logout' %}"
+        class="mt-8 px-8 py-3 bg-pink-600 text-white font-medium rounded-lg hover:bg-white hover:text-pink-600 border border-pink-600 transition-all duration-300 flex items-center gap-2 shadow-md"
+      >
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </a>
     </div>
-</body>
-</html>
+
+    <!-- Left Section: User Details -->
+    <div class="md:w-2/3 space-y-6 md:order-1">
+      <!-- Name -->
+      <div
+        class="group transform transition-all duration-300 hover:translate-x-1"
+      >
+        <label class="font-medium text-gray-700 block mb-2">Name</label>
+        <div class="relative">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500"
+          >
+            <i class="fas fa-user"></i>
+          </span>
+          <input
+            type="text"
+            value="{{ user.full_name }}"
+            class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm font-poppins"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div
+        class="group transform transition-all duration-300 hover:translate-x-1"
+      >
+        <label class="font-medium text-gray-700 block mb-2">Email</label>
+        <div class="relative">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500"
+          >
+            <i class="fas fa-envelope"></i>
+          </span>
+          <input
+            type="text"
+            value="{{ user.email }}"
+            class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm font-poppins"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div
+        class="group transform transition-all duration-300 hover:translate-x-1"
+      >
+        <label class="font-medium text-gray-700 block mb-2">Phone Number</label>
+        <div class="relative">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500"
+          >
+            <i class="fas fa-phone"></i>
+          </span>
+          <input
+            type="text"
+            value="{{ user.phone_number|default:'-' }}"
+            class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm font-poppins"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div
+        class="group transform transition-all duration-300 hover:translate-x-1"
+      >
+        <label class="font-medium text-gray-700 block mb-2">Address</label>
+        <div class="relative">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-pink-500"
+          >
+            <i class="fas fa-home"></i>
+          </span>
+          <input
+            type="text"
+            value="{{ user.address|default:'-' }}"
+            class="w-full p-4 pl-12 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-300 transition shadow-sm font-poppins"
+            readonly
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

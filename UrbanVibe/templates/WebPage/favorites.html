@@ -1,190 +1,216 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <main class="p-8">
-    <section>
-        <h2 class="text-xl font-bold text-pink-600">CUSTOMER FAVORITES</h2>
-        <p class="text-pink-400">Check what others are liking recently!</p>
-    </section>
+  <section>
+    <h2 class="text-xl font-bold text-rose-400">CUSTOMER FAVORITES</h2>
+    <p class="text-pink-400">Check what others are liking recently!</p>
+  </section>
 
-    <section class="mt-8">
-        <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-pink-600">FASHION</h3>
-            <div class="flex space-x-2">
-                <button id="fashion-prev" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <button id="fashion-next" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
+  <!-- Fashion Section -->
+  <section class="mt-8">
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-bold text-rose-400">FASHION</h3>
+      <div class="flex space-x-2">
+        <button id="fashion-prev" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <button id="fashion-next" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mt-4 relative">
+      <div id="fashion-slider" class="flex overflow-x-scroll pb-6 hide-scrollbar">
+        <div class="flex flex-nowrap space-x-6">
+          {% for product in fashion_products %}
+          <div class="inline-block min-w-[200px] cursor-pointer product-card" data-url="{% url 'product_detail' category='fashion' pk=product.pk %}">
+            {% if product.images.first %}
+            <img class="w-full h-48 object-cover rounded-lg" src="{{ product.images.first.image.url }}" alt="{{ product.name }}"/>
+            {% else %}
+            <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+              <span class="text-gray-500">No image available</span>
             </div>
-        </div>
-        <div class="mt-4 relative">
-            <div id="fashion-slider" class="flex overflow-x-scroll pb-6 hide-scrollbar">
-                <div class="flex flex-nowrap space-x-6">
-                    {% for product in fashion_products %}
-                    <div class="inline-block min-w-[200px]">
-                        {% if product.images.first %}
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                        <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-                            <span class="text-gray-500">No image available</span>
-                        </div>
-                        {% endif %}
-                        <h4 class="mt-2 h-12 overflow-hidden">{{ product.name }}</h4>
-                        <div class="flex justify-between items-center">
-                            <p class="text-pink-600 font-medium">Rp{{ product.price }}</p>
-                            <button class="mt-2 bg-pink-300 hover:bg-pink-400 text-white py-1 px-4 rounded-lg flex items-center justify-center">
-                                <a href="{% url 'shoppingcart' %}"><i class="fas fa-shopping-cart"></i></a>
-                            </button>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <p>No fashion products available.</p>
-                    {% endfor %}
-                </div>
+            {% endif %}
+            <h4 class="mt-2 h-12 overflow-hidden">{{ product.name }}</h4>
+            <div class="flex justify-between items-center">
+              <p class="text-pink-600 font-medium">Rp{{ product.price }}</p>
+              <button class="mt-2 bg-pink-300 hover:bg-pink-400 text-white py-1 px-4 rounded-lg flex items-center justify-center">
+                <a href="{% url 'shoppingcart' %}"><i class="fas fa-shopping-cart"></i></a>
+              </button>
             </div>
+          </div>
+          {% empty %}
+          <p>No fashion products available.</p>
+          {% endfor %}
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="mt-8">
-        <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-pink-600">BEAUTY</h3>
-            <div class="flex space-x-2">
-                <button id="fashion-prev" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <button id="fashion-next" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
+  <!-- Beauty Section -->
+  <section class="mt-8">
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-bold text-rose-400">BEAUTY</h3>
+      <div class="flex space-x-2">
+        <button id="beauty-prev" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <button id="beauty-next" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mt-4 relative">
+      <div id="beauty-slider" class="flex overflow-x-scroll pb-6 hide-scrollbar">
+        <div class="flex flex-nowrap space-x-6">
+          {% for product in beauty_products %}
+          <div class="inline-block min-w-[200px] cursor-pointer product-card" data-url="{% url 'product_detail' category='beauty' pk=product.pk %}">
+            {% if product.images.first %}
+            <img class="w-full h-48 object-cover rounded-lg" src="{{ product.images.first.image.url }}" alt="{{ product.name }}"/>
+            {% else %}
+            <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+              <span class="text-gray-500">No image available</span>
             </div>
-        </div>
-        <div class="mt-4 relative">
-            <div id="fashion-slider" class="flex overflow-x-scroll pb-6 hide-scrollbar">
-                <div class="flex flex-nowrap space-x-6">
-                    {% for product in beauty_products %}
-                    <div class="inline-block min-w-[200px]">
-                        {% if product.images.first %}
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                        <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-                            <span class="text-gray-500">No image available</span>
-                        </div>
-                        {% endif %}
-                        <h4 class="mt-2 h-12 overflow-hidden">{{ product.name }}</h4>
-                        <div class="flex justify-between items-center">
-                            <p class="text-pink-600 font-medium">Rp{{ product.price }}</p>
-                            <button class="mt-2 bg-pink-300 hover:bg-pink-400 text-white py-1 px-4 rounded-lg flex items-center justify-center">
-                                <a href="{% url 'shoppingcart' %}"><i class="fas fa-shopping-cart"></i></a>
-                            </button>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <p>No beauty products available.</p>
-                    {% endfor %}
-                </div>
+            {% endif %}
+            <h4 class="mt-2 h-12 overflow-hidden">{{ product.name }}</h4>
+            <div class="flex justify-between items-center">
+              <p class="text-pink-600 font-medium">Rp{{ product.price }}</p>
+              <button class="mt-2 bg-pink-300 hover:bg-pink-400 text-white py-1 px-4 rounded-lg flex items-center justify-center">
+                <a href="{% url 'shoppingcart' %}"><i class="fas fa-shopping-cart"></i></a>
+              </button>
             </div>
+          </div>
+          {% empty %}
+          <p>No beauty products available.</p>
+          {% endfor %}
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="mt-8 bg-pink-50 p-4 rounded-lg">
-        <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-pink-600">Trending This Week: Most searched and frequently visited</h3>
-            <div class="flex space-x-2">
-                <button id="trending-prev" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <button id="trending-next" class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
+<!-- Trending Section -->
+<section class="mt-8 bg-pink-50 p-4 rounded-lg">
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg font-bold text-rose-400">
+      Trending This Week: Most searched and frequently visited
+    </h3>
+    <div class="flex space-x-2">
+      <button
+        id="trending-prev"
+        class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+      <button
+        id="trending-next"
+        class="bg-pink-200 hover:bg-pink-300 text-pink-600 p-2 rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="mt-4 relative">
+    <div
+      id="trending-slider"
+      class="flex overflow-x-scroll pb-6 hide-scrollbar"
+    >
+      <div class="flex flex-nowrap space-x-6">
+        {% for product in trending_products %}
+        <div class="inline-block min-w-[200px]">
+          {% if product.images.first %}
+          <img
+            class="w-full h-48 object-cover rounded-lg"
+            src="{{ product.images.first.image.url }}"
+            alt="{{ product.name }}"
+          />
+          {% else %}
+          <div
+            class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center"
+          >
+            <span class="text-gray-500">No image available</span>
+          </div>
+          {% endif %}
+          <h4 class="mt-2 h-6 overflow-hidden">{{ product.name }}</h4>
+          <div class="flex justify-between items-center mt-2">
+            <p class="text-pink-600 font-medium">Rp{{ product.price }}</p>
+            <button
+              class="bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
         </div>
-        <div class="mt-4 relative">
-            <div id="trending-slider" class="flex overflow-x-scroll pb-6 hide-scrollbar">
-                <div class="flex flex-nowrap space-x-6">
-                    {% for product in trending_products %}
-                    <div class="inline-block min-w-[200px]">
-                        {% if product.images.first %}
-                        <img class="w-full h-48 object-cover rounded-lg" src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                        <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-                            <span class="text-gray-500">No image available</span>
-                        </div>
-                        {% endif %}
-                        <h4 class="mt-2 h-6 overflow-hidden">{{ product.name }}</h4>
-                        <div class="flex justify-between items-center mt-2">
-                            <p class="text-pink-600 font-medium">Rp{{ product.price }}</p>
-                            <button class="bg-pink-300 text-white py-2 px-4 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <p>No trending products available.</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </section>
+        {% empty %}
+        <p>No trending products available.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
 
-    <style>
-        /* Hide scrollbar while keeping functionality */
-        .hide-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-        
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;  /* Chrome, Safari and Opera */
-        }
-    </style>
+  <style>
+    .hide-scrollbar {
+      -ms-overflow-style: none; scrollbar-width: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set up sliders
-            setupSlider('fashion-slider', 'fashion-prev', 'fashion-next');
-            setupSlider('beauty-slider', 'beauty-prev', 'beauty-next');
-            setupSlider('trending-slider', 'trending-prev', 'trending-next');
-            
-            function setupSlider(sliderId, prevId, nextId) {
-                const slider = document.getElementById(sliderId);
-                const prevButton = document.getElementById(prevId);
-                const nextButton = document.getElementById(nextId);
-                
-                // Skip if elements don't exist
-                if (!slider || !prevButton || !nextButton) return;
-                
-                // The scroll amount (approximately one item width + gap)
-                const scrollAmount = 250;
-                
-                prevButton.addEventListener('click', function() {
-                    slider.scrollBy({
-                        left: -scrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-                
-                nextButton.addEventListener('click', function() {
-                    slider.scrollBy({
-                        left: scrollAmount,
-                        behavior: 'smooth'
-                    });
-                });
-            }
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Set up sliders
+      setupSlider("fashion-slider", "fashion-prev", "fashion-next");
+      setupSlider("beauty-slider", "beauty-prev", "beauty-next");
+      setupSlider("trending-slider", "trending-prev", "trending-next");
+
+      function setupSlider(sliderId, prevId, nextId) {
+        const slider = document.getElementById(sliderId);
+        const prevButton = document.getElementById(prevId);
+        const nextButton = document.getElementById(nextId);
+        if (!slider || !prevButton || !nextButton) return;
+        const scrollAmount = 250;
+        prevButton.addEventListener("click", () => slider.scrollBy({ left: -scrollAmount, behavior: "smooth" }));
+        nextButton.addEventListener("click", () => slider.scrollBy({ left: scrollAmount, behavior: "smooth" }));
+      }
+
+      // Add click event to product cards
+      document.querySelectorAll(".product-card").forEach(card => {
+        card.addEventListener("click", function () {
+          const url = this.getAttribute("data-url");
+          window.location.href = url;
         });
-    </script>
+      });
+    });
+  </script>
 </main>
 {% endblock %}
