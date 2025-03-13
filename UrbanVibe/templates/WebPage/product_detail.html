@@ -110,7 +110,7 @@
 
     document.getElementById("addToCartBtn").addEventListener("click", function () {
         let button = this;
-        let productId = button.getAttribute("data-product-id").trim();  // Ensure no empty string
+        let productId = button.getAttribute("data-product-id").trim();
         let productType = button.getAttribute("data-product-type").trim();
         
         let color = document.getElementById("selectedColor")?.textContent || null;

@@ -294,7 +294,7 @@ const ShoppingCart = (function() {
      */
     function updateItemQuantity(itemId, action) {
         const isAuthenticated = document.body.dataset.authenticated === 'true';
-        
+    
         if (isAuthenticated) {
             // For authenticated users, make an AJAX request to the server
             fetch('/update-cart-item/', {
@@ -312,30 +312,17 @@ const ShoppingCart = (function() {
             .then(data => {
                 if (data.removed) {
                     // Remove item from DOM
-                    const itemElement = document.getElementById(`item-${itemId}`);
+                    const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
                     if (itemElement) {
                         itemElement.remove();
                     }
                     
                     // Update cart summary
-                    if (elements.subtotalElement) {
-                        elements.subtotalElement.textContent = `Rp. ${data.cart_total.toLocaleString()}`;
-                    }
-                    
-                    if (elements.totalElement) {
-                        elements.totalElement.textContent = `Rp. ${data.final_total.toLocaleString()}`;
-                    }
-                    
-                    if (elements.taxElement) {
-                        elements.taxElement.textContent = `Rp. ${data.tax.toLocaleString()}`;
-                    }
-                    
-                    // Show empty cart message if no items left
-                    if (data.cart_items === 0 && elements.emptyCartMessage) {
-                        elements.emptyCartMessage.style.display = 'block';
-                    }
+                    calculateTotals();
+                    updateCartUI();
                     
                     showNotification('Item removed from cart', 'success');
+                    window.location.reload();
                 } else {
                     // Refresh the page to update cart
                     window.location.reload();
@@ -348,7 +335,7 @@ const ShoppingCart = (function() {
         } else {
             // For non-authenticated users, manage cart in localStorage
             const itemIndex = _cart.items.findIndex(item => item.id == itemId);
-            
+    
             if (itemIndex !== -1) {
                 if (action === 'increase') {
                     _cart.items[itemIndex].quantity += 1;
@@ -358,21 +345,21 @@ const ShoppingCart = (function() {
                         _cart.items[itemIndex].quantity -= 1;
                         showNotification('Item quantity decreased', 'success');
                     } else {
-                        _cart.items.splice(itemIndex, 1);
+                        _cart.items.splice(itemIndex, 1);  // Remove item if quantity reaches 0
                         showNotification('Item removed from cart', 'success');
                     }
                 } else if (action === 'remove') {
                     _cart.items.splice(itemIndex, 1);
                     showNotification('Item removed from cart', 'success');
                 }
-                
+    
                 // Recalculate and update UI
                 calculateTotals();
                 updateCartUI();
             }
         }
     }
-    
+
     /**
      * Apply voucher code to the cart
      */
