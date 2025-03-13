@@ -24,6 +24,7 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('process-payment/', views.process_payment, name='process_payment'),
     path("send-email/", views.send_subscription_email, name="send_email"),
+    path('product/<int:id>/', views.product_detail, name='product_detail'),
 ]
 
 if settings.DEBUG:

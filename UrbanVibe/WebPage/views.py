@@ -29,8 +29,8 @@ def favorites(request):
     beauty_products = Beauty.objects.order_by('-product_id')[:8]
 
     # Fetch trending products (modify logic as needed)
-    trending_fashion = Fashion.objects.order_by('-product_id')[:5]
-    trending_beauty = Beauty.objects.order_by('-product_id')[:3]
+    trending_fashion = Fashion.objects.order_by('-product_id')[:4]
+    trending_beauty = Beauty.objects.order_by('-product_id')[:4]
 
     # Manually combine products into a list
     trending_products = list(trending_fashion) + list(trending_beauty)
@@ -103,6 +103,10 @@ def beauty_detail(request, pk):
 def accessories_detail(request, pk):
     accessories = get_object_or_404(Accessories, pk=pk)
     return render(request, 'WebPage/accessories_detail.html', {'accessories': accessories})
+
+def product_detail(request, id):
+    product = get_object_or_404(Product, id=id) 
+    return render(request, 'product_detail.html', {'product': product})
 
 def register_customer(request):
     if request.method == 'POST':
@@ -572,3 +576,4 @@ def send_subscription_email(request):
         return JsonResponse({"error": "Invalid email"}, status=400)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+    

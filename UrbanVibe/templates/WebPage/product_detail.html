@@ -1,130 +1,87 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 <html lang="en">
  <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Product Page
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
+  <title>Product Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
  </head>
  <body class="bg-gray-100">
   <div class="max-w-5xl mx-auto bg-white p-4">
-    {% for product in fashion_products %}
-   <div class="flex flex-col md:flex-row">
-    <div class="md:w-1/2">
-     <img alt="Woman wearing a dark gray kimono cardigan" class="w-full" height="800" src="{{ product.image.url }}" width="600"/>
-    </div>
-    <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
-     <h1 class="text-x1 font-bold">
-        {{ product.name }}
-     </h1>
-     <div class="flex items-center mt-1">
-      <span class="ml-2 text-gray-600">
-       1,8RB Penilaian
-      </span>
-      <span class="ml-2 text-gray-600">
-       5,2RB Sold
-      </span>
-     </div>
-     <div class="mt-3">
-      <span class="text-3xl text-pink-500 font-bold">
-        Rp{{ product.price }}
-      </span>
-     </div>
-     <div class="mt-4">
-      <div class="flex items-center">
-       <i class="fas fa-truck text-pink-600">
-       </i>
-       <span class="ml-2 text-gray-600">
-        Pre-Order (dikirim dalam 7 hari)
-       </span>
-      </div>
-      <div class="flex items-center mt-2">
-       <i class="fas fa-map-marker-alt text-pink-600">
-       </i>
-       <span class="ml-2 text-gray-600">
-        Pengiriman Ke
-       </span>
-       <span class="ml-2 text-gray-800 font-bold">
-        KOTA JAKARTA BARAT
-       </span>
-      </div>
-      <div class="flex items-center mt-2">
-       <i class="fas fa-shipping-fast text-pink-600">
-       </i>
-       <span class="ml-2 text-gray-600">
-        Ongkos Kirim
-       </span>
-       <span class="ml-2 text-gray-800 font-bold">
-        Rp0
-       </span>
-      </div>
-     </div>
-     <div class="mt-4">
-      <div class="flex items-center">
-       <i class="fas fa-shield-alt text-pink-600">
-       </i>
-       <span class="ml-2 text-gray-600">
-        Bebas Pengembalian · COD-Cek Dulu · Proteksi Kerusakan +
-       </span>
-      </div>
-     </div>
-     <div class="mt-4">
-      <span class="text-gray-600">
-       Warna
-      </span>
-      <div class="flex flex-wrap mt-2">
-       <button class="border px-2 py-1 m-1">
-        Almond
-       </button>
-       <button class="border px-2 py-1 m-1">
-        Peanut
-       </button>
-       <button class="border px-2 py-1 m-1">
-        Walnut
-       </button>
-       <button class="border px-2 py-1 m-1">
-        Hazelnut
-       </button>
-       <button class="border px-2 py-1 m-1">
-        Dusty
-       </button>
-    
-      </div>
-     </div>
-     <div class="mt-3">
-      <span class="text-gray-600">
-       Panduan Ukuran
-      </span>
-     </div>
-        <div class="mt-2 flex items-center">
-            <button onclick="decreaseQuantity('qty1')" class="px-3 py-1 bg-gray-200 rounded">-</button>
-            <span id="qty1" class="px-4">3</span>
-            <button onclick="increaseQuantity('qty1')" class="px-3 py-1 bg-gray-200 rounded">+</button>
+    <div class="flex flex-col md:flex-row">
+        <div class="md:w-1/2">
+            {% if product.images.first %}
+                <img class="w-full h-48 object-cover rounded-lg" src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500">No image available</span>
+                </div>
+            {% endif %}
         </div>
-     <div class="mt-4 flex space-x-2">
-      <button class="bg-pink-300 text-white px-4 py-2 rounded">
-       Masukkan Keranjang
-      </button>
-      <button class="bg-pink-300 text-white px-4 py-2 rounded">
-       Beli Dengan Voucher Rp68.670
-      </button>
-     </div>
-      <div class="mt-2">
-       <i class="far fa-heart text-red-600">
-       </i>
-       <span class="ml-2 text-gray-600">
-        Favorit (20,8RB)
-       </span>
-      </div>
-     </div>
+
+        <div class="md:w-1/2 md:pl-8 mt-4 md:mt-0">
+            <h1 class="text-xl font-bold">{{ product.name }}</h1>
+            <div class="flex items-center mt-1">
+                <span class="ml-2 text-gray-600">1,8RB Penilaian</span>
+                <span class="ml-2 text-gray-600">5,2RB Sold</span>
+            </div>
+            <div class="mt-3">
+                <span class="text-3xl text-pink-500 font-bold">Rp{{ product.price }}</span>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center">
+                    <i class="fas fa-truck text-pink-600"></i>
+                    <span class="ml-2 text-gray-600">Pre-Order (dikirim dalam 7 hari)</span>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-map-marker-alt text-pink-600"></i>
+                    <span class="ml-2 text-gray-600">Pengiriman Ke</span>
+                    <span class="ml-2 text-gray-800 font-bold">KOTA JAKARTA BARAT</span>
+                </div>
+                <div class="flex items-center mt-2">
+                    <i class="fas fa-shipping-fast text-pink-600"></i>
+                    <span class="ml-2 text-gray-600">Ongkos Kirim</span>
+                    <span class="ml-2 text-gray-800 font-bold">Rp0</span>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-pink-600"></i>
+                    <span class="ml-2 text-gray-600">Bebas Pengembalian · COD-Cek Dulu · Proteksi Kerusakan +</span>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-gray-600">Warna</span>
+                <div class="flex flex-wrap mt-2">
+                    <button class="border px-2 py-1 m-1">Almond</button>
+                    <button class="border px-2 py-1 m-1">Peanut</button>
+                    <button class="border px-2 py-1 m-1">Walnut</button>
+                    <button class="border px-2 py-1 m-1">Hazelnut</button>
+                    <button class="border px-2 py-1 m-1">Dusty</button>
+                </div>
+            </div>
+            <div class="mt-3">
+                <span class="text-gray-600">Panduan Ukuran</span>
+            </div>
+            <div class="mt-2 flex items-center">
+                <button onclick="decreaseQuantity('qty1')" class="px-3 py-1 bg-gray-200 rounded">-</button>
+                <span id="qty1" class="px-4">3</span>
+                <button onclick="increaseQuantity('qty1')" class="px-3 py-1 bg-gray-200 rounded">+</button>
+            </div>
+            <div class="mt-4 flex space-x-2">
+                <button class="bg-pink-300 text-white px-4 py-2 rounded"><a href="{% url 'shoppingcart' %}">Masukkan Keranjang</a></button>
+                <button class="bg-pink-300 text-white px-4 py-2 rounded">Beli Dengan Voucher Rp68.670</button>
+            </div>
+            <div class="mt-2">
+                <i class="far fa-heart text-red-600"></i>
+                <span class="ml-2 text-gray-600">Favorit (20,8RB)</span>
+            </div>
+        </div>
     </div>
-   </div>
   </div>
  </body>
 </html>
@@ -133,7 +90,6 @@
     function increaseQuantity(id) {
         let quantity = document.getElementById(id);
         quantity.textContent = parseInt(quantity.textContent) + 1;
-        updateTotal();
     }
 
     function decreaseQuantity(id) {
@@ -141,7 +97,6 @@
         let currentValue = parseInt(quantity.textContent);
         if (currentValue > 1) {
             quantity.textContent = currentValue - 1;
-            updateTotal();
         }
     }
 </script>
