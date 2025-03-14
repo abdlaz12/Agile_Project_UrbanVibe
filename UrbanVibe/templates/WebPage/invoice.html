@@ -1,268 +1,155 @@
-{% extends 'base.html' %} {% load static %} {% load humanize %} {% block content
-%}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UrbanVibe - Invoice</title>
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      .order-container {
-        max-width: 800px;
-        margin: 2rem auto;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      .order-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid #eee;
-      }
-      .order-summary {
-        margin-top: 1rem;
-        text-align: right;
-      }
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
 
-      .footer-section {
-        margin-bottom: 2rem;
-        min-width: 200px;
-      }
-      .social-icons {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
+{% block content %}
+<main class="min-h-screen">
+  <div class="text-center py-10">
+    <h1 class="text-6xl font-bold text-pink-500">
+      Thank you{% if user.is_authenticated %}, {{ user.full_name|default:user.email }}{% endif %}!
+    </h1>
+  </div>
 
-      .line {
-        flex-grow: 1;
-        height: 1px;
-        background-color: #ddd;
-      }
-    </style>
-  </head>
+  <div class="order-container max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold mb-6 text-center">YOUR ORDER INFORMATION</h2>
 
-  <body
-    data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"
-  >
-    <!-- Main Content -->
-    <main class="min-h-screen">
-      <div class="text-center py-10">
-        <h1 class="text-6xl font-bold text-pink-500">
-          Thank you{% if user.is_authenticated %}, {{
-          user.full_name|default:user.email }}{% endif %}!
-        </h1>
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div>
+        <p class="font-bold">Order Date:</p>
+        <p id="orderDate">
+          {% if order and order.date_ordered %}
+            {{ order.date_ordered|date:"F d, Y" }}
+          {% else %}
+            <span id="js-date">Loading date...</span>
+          {% endif %}
+        </p>
       </div>
-
-      <div class="order-container">
-        <h2 class="text-xl font-bold mb-6">YOUR ORDER INFORMATION</h2>
-
-        <div class="grid grid-cols-2 gap-4 mb-6">
-          <div>
-            <p class="font-bold">Order Date:</p>
-            <p id="orderDate">
-              {% if order.date_ordered %} {{ order.date_ordered|date:"F d, Y" }}
-              {% else %}
-              <span id="js-date">Loading date...</span>
-              {% endif %}
-            </p>
-          </div>
-          <div>
-            <p class="font-bold">Bill To:</p>
-            <p>
-              {% if user.is_authenticated %}{{ user.email }}{% else %}<span
-                id="js-email"
-                >Guest</span
-              >{% endif %}
-            </p>
-          </div>
-          {% if order.transaction_id %}
-          <div>
-            <p class="font-bold">Transaction ID:</p>
-            <p>{{ order.transaction_id }}</p>
-          </div>
-          {% endif %}
-        </div>
-
-        <h3 class="font-bold mb-4">HERE'S WHAT YOU ORDERED:</h3>
-
-        <div class="mb-4" id="orderItems">
-          {% if items %}
-          <!-- Backend-rendered items for authenticated users -->
-          {% for item in items %}
-          <div
-            class="{% if forloop.first %}border-t{% endif %} border-b border-gray-300 py-3 flex justify-between items-center {% if forloop.first %}bg-gray-100{% endif %} px-4"
-          >
-            <p>
-              {{ item.get_product.name }} {% if item.color or item.size %} ({%
-              if item.color %}{{ item.color|lower }}{% endif %}{% if item.color
-              and item.size %}, {% endif %}{% if item.size %}{{ item.size|lower
-              }}{% endif %}) {% endif %} x{{ item.quantity }}
-            </p>
-            <p>Rp. {{ item.get_total|floatformat:"0"|intcomma }}</p>
-          </div>
-          {% endfor %}
-
-          <div class="h-8"></div>
-          <div class="py-3 flex justify-between items-center px-4">
-            <p>TAX</p>
-            <p id="taxAmount">Rp. {{ tax|floatformat:"0"|intcomma }}</p>
-          </div>
-
-          {% if order.discount_amount > 0 %}
-          <div class="py-3 flex justify-between items-center px-4">
-            <p id="discountLabel">
-              DISCOUNT{% if order.voucher_code %} (Voucher: {{
-              order.voucher_code }}){% endif %}
-            </p>
-            <p id="discountAmount">
-              Rp. {{ order.discount_amount|floatformat:"0"|intcomma }}
-            </p>
-          </div>
-          {% endif %} {% else %}
-          <!-- Client-side cart items will be rendered here for non-authenticated users -->
-          <div id="client-items">
-            <!-- Will be populated by JavaScript -->
-          </div>
-          {% endif %}
-        </div>
-
-        <div class="order-summary">
-          <div class="border border-gray-300 inline-block px-4 py-2">
-            <p id="totalAmount">
-              <span class="font-bold">TOTAL: </span>
-              {% if total %} Rp. {{ total|floatformat:"0"|intcomma }} {% else %}
-              <span id="js-total">Calculating...</span>
-              {% endif %}
-            </p>
-          </div>
-        </div>
-
-        <div class="mt-8 flex justify-between">
-          <a
-            href="{% url 'catalogue' %}"
-            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-          >
-            Continue Shopping
-          </a>
-          {% if user.is_authenticated %}
-          <a
-            href="{% url 'profile' %}"
-            class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded"
-          >
-            View My Orders
-          </a>
-          {% endif %}
-        </div>
+      <div>
+        <p class="font-bold">Bill To:</p>
+        <p>
+          {% if user.is_authenticated %}{{ user.email }}{% else %}<span id="js-email">Guest</span>{% endif %}
+        </p>
       </div>
+      {% if order and order.transaction_id %}
+      <div>
+        <p class="font-bold">Transaction ID:</p>
+        <p>{{ order.transaction_id }}</p>
+      </div>
+      {% endif %}
+    </div>
 
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          // Only use localStorage data if not authenticated or no backend data
-          const isAuthenticated =
-            document.body.dataset.authenticated === "true";
-          const hasBackendData =
-            document.getElementById("orderItems").children.length > 0;
+    <h3 class="font-bold mb-4">HERE'S WHAT YOU ORDERED:</h3>
 
-          if (!isAuthenticated || !hasBackendData) {
-            const cartDataStr = localStorage.getItem("cartData");
-            const voucherCode = localStorage.getItem("voucherCode");
+    <div class="mb-4 border-t border-gray-300" id="orderItems">
+      {% if items %}
+        {% for item in items %}
+        <div class="order-item flex justify-between py-3 {% if forloop.first %}bg-gray-100{% endif %} px-4 border-b">
+          <p>
+            {{ item.get_product.name }}
+            {% if item.color or item.size %}
+              ({{ item.color|default_if_none:"" }}{% if item.color and item.size %}, {% endif %}{{ item.size|default_if_none:"" }})
+            {% endif %}
+            x{{ item.quantity }}
+          </p>
+          <p class="font-semibold">Rp. {{ item.get_total|floatformat:"0"|intcomma }}</p>
+        </div>
+        {% endfor %}
 
-            if (cartDataStr) {
-              try {
-                const cartData = JSON.parse(cartDataStr);
-                updateInvoiceDisplay(cartData, voucherCode);
-              } catch (e) {
-                console.error("Error parsing cart data:", e);
-              }
-            }
+        <div class="py-3 flex justify-between items-center px-4">
+          <p class="font-bold">TAX</p>
+          <p id="taxAmount">Rp. {{ tax|floatformat:"0"|intcomma }}</p>
+        </div>
 
-            // Clear cart data from localStorage after displaying the invoice
-            // This prevents the same order from showing up again if they visit the invoice page later
-            localStorage.removeItem("cartData");
-            localStorage.removeItem("voucherCode");
-          }
+        {% if order and order.discount_amount > 0 %}
+        <div class="py-3 flex justify-between items-center px-4">
+          <p class="font-bold">
+            DISCOUNT{% if order.voucher_code %} (Voucher: {{ order.voucher_code }}){% endif %}
+          </p>
+          <p class="font-semibold">Rp. {{ order.discount_amount|floatformat:"0"|intcomma }}</p>
+        </div>
+        {% endif %}
+      {% else %}
+      <div id="client-items">
+        <!-- Data dari localStorage akan masuk di sini -->
+      </div>
+      {% endif %}
+    </div>
 
-          // Set today's date if not provided by the backend
-          const orderDateElem = document.getElementById("js-date");
-          if (orderDateElem) {
-            const today = new Date();
-            const options = { year: "numeric", month: "long", day: "numeric" };
-            orderDateElem.textContent = today.toLocaleDateString(
-              "id-ID",
-              options
-            );
-          }
-        });
+    <div class="order-summary text-right mt-4">
+      <div class="border border-gray-300 inline-block px-4 py-2 rounded-lg">
+        <p id="totalAmount" class="text-lg font-bold">
+          TOTAL: 
+          {% if total %} Rp. {{ total|floatformat:"0"|intcomma }} {% else %}
+          <span id="js-total">Calculating...</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
 
-        function updateInvoiceDisplay(cartData, voucherCode) {
-          const orderItems = document.getElementById("client-items");
-          if (!orderItems) return;
+    <div class="mt-8 flex justify-between">
+      <a href="{% url 'catalogue' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+        Continue Shopping
+      </a>
+  </div>
 
-          const itemsHTML = [];
-          cartData.items.forEach((item, index) => {
-            const bgClass = index === 0 ? "bg-gray-100" : "";
-            const borderClass =
-              index === cartData.items.length - 1
-                ? "border-b"
-                : "border-t border-b";
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const isAuthenticated = document.body.dataset.authenticated === "true";
+      const hasBackendData = document.getElementById("orderItems").children.length > 0;
 
-            itemsHTML.push(`
-                    <div class="${borderClass} border-gray-300 py-3 flex justify-between items-center ${bgClass} px-4">
-                        <p>${
-                          item.name
-                        } (${item.color.toLowerCase()}, ${item.size.toLowerCase()}) x${
-              item.quantity
-            }</p>
-                        <p>Rp. ${(
-                          item.price * item.quantity
-                        ).toLocaleString()}</p>
-                    </div>
-                `);
-          });
+      if (!isAuthenticated || !hasBackendData) {
+        const cartDataStr = localStorage.getItem("cartData");
+        const voucherCode = localStorage.getItem("voucherCode");
 
-          itemsHTML.push('<div class="h-8"></div>');
-          itemsHTML.push(`
-                <div class="py-3 flex justify-between items-center px-4">
-                    <p>TAX</p>
-                    <p id="taxAmount">Rp. ${cartData.tax.toLocaleString()}</p>
-                </div>
-            `);
-
-          if (cartData.discount > 0) {
-            let discountLabel = "DISCOUNT";
-            if (voucherCode) {
-              discountLabel = `DISCOUNT (Voucher: ${voucherCode})`;
-            }
-            itemsHTML.push(`
-                    <div class="py-3 flex justify-between items-center px-4">
-                        <p id="discountLabel">${discountLabel}</p>
-                        <p id="discountAmount">Rp. ${cartData.discount.toLocaleString()}</p>
-                    </div>
-                `);
-          }
-
-          orderItems.innerHTML = itemsHTML.join("");
-
-          // Update total
-          const totalElem = document.getElementById("js-total");
-          if (totalElem) {
-            totalElem.innerHTML = `Rp. ${cartData.total.toLocaleString()}`;
+        if (cartDataStr) {
+          try {
+            const cartData = JSON.parse(cartDataStr);
+            updateInvoiceDisplay(cartData, voucherCode);
+          } catch (e) {
+            console.error("Error parsing cart data:", e);
           }
         }
-      </script>
-    </main>
-  </body>
-</html>
+
+        localStorage.removeItem("cartData");
+        localStorage.removeItem("voucherCode");
+      }
+
+      const orderDateElem = document.getElementById("js-date");
+      if (orderDateElem) {
+        const today = new Date();
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        orderDateElem.textContent = today.toLocaleDateString("id-ID", options);
+      }
+    });
+
+    function updateInvoiceDisplay(cartData, voucherCode) {
+      const orderItems = document.getElementById("client-items");
+      if (!orderItems) return;
+
+      let itemsHTML = cartData.items.map((item, index) => {
+        return `
+          <div class="order-item flex justify-between py-3 px-4 border-b">
+            <p>${item.name} (${item.color || "-"}, ${item.size || "-"}) x${item.quantity}</p>
+            <p class="font-semibold">Rp. ${(item.price * item.quantity).toLocaleString()}</p>
+          </div>
+        `;
+      }).join("");
+
+      itemsHTML += `<div class="py-3 flex justify-between items-center px-4">
+          <p class="font-bold">TAX</p>
+          <p id="taxAmount">Rp. ${cartData.tax.toLocaleString()}</p>
+        </div>`;
+
+      if (cartData.discount > 0) {
+        itemsHTML += `<div class="py-3 flex justify-between items-center px-4">
+          <p class="font-bold">DISCOUNT ${voucherCode ? `(Voucher: ${voucherCode})` : ""}</p>
+          <p class="font-semibold">Rp. ${cartData.discount.toLocaleString()}</p>
+        </div>`;
+      }
+
+      orderItems.innerHTML = itemsHTML;
+      document.getElementById("js-total").textContent = `Rp. ${cartData.total.toLocaleString()}`;
+    }
+  </script>
+</main>
 {% endblock %}
